@@ -71,7 +71,7 @@
 // #include "Offline/TrkReco/inc/DoubletAmbigResolver.hh"
 #include "Offline/MCDataProducts/inc/GenId.hh"
 #include "Offline/RecoDataProducts/inc/HelixSeed.hh"
-// #include "TrkDiag/inc/KalDiag.hh"
+// #include "CommonMC/inc/KalDiag.hh"
 
 using namespace std; 
 

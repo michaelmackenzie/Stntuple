@@ -27,7 +27,6 @@ def local_build():
                         'Stntuple_geom',
                         'mu2e_CalPatRec',
                         'mu2e_CaloCluster',
-                        'mu2e_TrkDiag',
                         'mu2e_TrkReco',
                         
                         'mu2e_CalorimeterGeom',
@@ -44,6 +43,7 @@ def local_build():
                         'mu2e_RecoDataProducts',
                         'mu2e_DataProducts',
                         'mu2e_CaloMC',
+                        'mu2e_CommonMC',
                                                 
                         babarlibs,
                         

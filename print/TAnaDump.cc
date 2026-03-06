@@ -54,13 +54,13 @@
 // #include "Offline/RecoDataProducts/inc/TrkToCaloExtrapol.hh"
 // #include "Offline/RecoDataProducts/inc/TrkCaloIntersect.hh"
 // #include "Offline/RecoDataProducts/inc/TrackClusterMatch.hh"
-#include "Offline/TrkDiag/inc/TrkMCTools.hh"
+#include "Offline/CommonMC/inc/TrkMCTools.hh"
 
 #include "Offline/Mu2eUtilities/inc/LsqSums4.hh"
 
 #include "Stntuple/base/TNamedHandle.hh"
 
-#include "Offline/TrkDiag/inc/TrkMCTools.hh"
+#include "Offline/CommonMC/inc/TrkMCTools.hh"
 
 // BTRK (BaBar) includes
 #include "BTrk/BbrGeom/HepPoint.h"

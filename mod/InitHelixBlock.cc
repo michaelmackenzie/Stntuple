@@ -45,7 +45,7 @@
 #include "Offline/MCDataProducts/inc/StrawDigiMC.hh"
 #include "Offline/MCDataProducts/inc/SimParticle.hh"
 #include "Offline/MCDataProducts/inc/StepPointMC.hh"
-#include "Offline/TrkDiag/inc/TrkMCTools.hh"
+#include "Offline/CommonMC/inc/TrkMCTools.hh"
 #include "Offline/Mu2eUtilities/inc/HelixTool.hh"
 
 

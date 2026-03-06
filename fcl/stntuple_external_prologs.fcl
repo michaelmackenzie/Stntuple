@@ -49,7 +49,6 @@ END_PROLOG
 #------------------------------------------------------------------------------
 #include "Offline/TrkReco/fcl/Particle.fcl"
 #include "Offline/Mu2eKinKal/fcl/prolog.fcl"
-#include "Offline/TrkDiag/fcl/prolog.fcl"
 #include "Offline/TrkHitReco/fcl/prolog.fcl"
 #include "Offline/TrkReco/fcl/prolog.fcl"
 #include "Offline/TrkPatRec/fcl/prolog.fcl"
