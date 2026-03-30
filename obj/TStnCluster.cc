@@ -132,6 +132,18 @@ void TStnCluster::Streamer(TBuffer& R__b) {
       } else {
         R__b.ReadFastArray(&fE9,nwf2); // Extra float region added in V3
       }
+      const int ncr = NCrystals();
+      if(R__v < 4) { // sparse crystal info added in V4
+        for(int index = 0; index < ncr; ++index) {
+          fCrystalEnergies[index] = 0.f;
+          fCrystalTimes   [index] = 0.f;
+          fCrystalIDs     [index] = 0  ;
+        }
+      } else {
+        R__b.ReadFastArray(fCrystalEnergies,ncr);
+        R__b.ReadFastArray(fCrystalTimes   ,ncr);
+        R__b.ReadFastArray(fCrystalIDs     ,ncr);
+      }
     }
   }
   else {
@@ -140,6 +152,10 @@ void TStnCluster::Streamer(TBuffer& R__b) {
     R__b.WriteFastArray(&fNumber,nwi );
     R__b.WriteFastArray(&fX     ,nwf );
     R__b.WriteFastArray(&fE9    ,nwf2);
+    const int ncr = NCrystals();
+    R__b.WriteFastArray(fCrystalEnergies,ncr);
+    R__b.WriteFastArray(fCrystalTimes   ,ncr);
+    R__b.WriteFastArray(fCrystalIDs     ,ncr);
   }
 }
 
@@ -148,6 +164,7 @@ TStnCluster::TStnCluster(Int_t Number) {
   // 'Number' can be -1 ...
   
   fNumber       = Number;
+  fNCrystals    = 0;
   fCaloCluster  = 0;
   fClosestTrack = 0;
   fTimeRMS      =  0.f;

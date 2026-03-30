@@ -42,6 +42,7 @@ class TStnCluster : public TObject {
 
     kNFreeFloats2  = 10 // more space for expansion added in V3
   };
+  enum { kMaxCrystals = 100 };
 
 public:
 //-----------------------------------------------------------------------------
@@ -98,6 +99,12 @@ public:
   float                     fMCTime;     // MC time, weighted by sim energy dep, added in V3
   float                     fFloat2[kNFreeFloats2]; // Extra expansion room added in V3
 //-----------------------------------------------------------------------------
+// sparse crystal hit information
+//-----------------------------------------------------------------------------
+  float                     fCrystalEnergies[kMaxCrystals];
+  float                     fCrystalTimes   [kMaxCrystals];
+  int                       fCrystalIDs     [kMaxCrystals];
+//-----------------------------------------------------------------------------
 // transients
 //-----------------------------------------------------------------------------
   const mu2e::CaloCluster*  fCaloCluster;  //!
@@ -147,6 +154,17 @@ public:
   float   RingE       () const { return E9() - E1(); } // energy around the main hit
   float   R           () const { return std::sqrt(fX*fX + fY*fY); }
 
+  // sparse crystal info
+  float   CrystalE    (const int index) const {
+    (index > 0 && index < NCrystals()) ? fCrystalEnergies[index] : 0.f;
+  }
+  float   CrystalT    (const int index) const {
+    (index > 0 && index < NCrystals()) ? fCrystalTimes[index] : 0.f;
+  }
+  int   CrystalID   (const int index) const {
+    (index > 0 && index < NCrystals()) ? fCrystalIDs[index] : 0;
+  }
+
   // linked track
   TStnTrack* ClosestTrack() { return fClosestTrack; }
 
@@ -162,7 +180,7 @@ public:
 //-----------------------------------------------------------------------------
   void ReadV1(TBuffer& R__b);
 
-  ClassDef(TStnCluster,3)
+  ClassDef(TStnCluster,4)
 };
 
 #endif
