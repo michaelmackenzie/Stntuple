@@ -10,6 +10,9 @@ source       : { module_type : RootInput
     inputCommands : [ "keep  *_*_*_*"]
 }
 
+# FIXME: combo hit art::Ptr resolution can throw errors
+physics.analyzers.StntupleMaker.makeHelices            : 0
+
 # Create ptr collections from the trigger results
 physics.producers.AprTrkDe80m70pCollections : {
 	module_type     : TriggerInfoToCollections
@@ -37,7 +40,7 @@ physics.TriggerInfoPaths : [
 	CprTrkDe80m70pCollections
 ]
 
-physics.trigger_paths : [TrkQualPath, TriggerInfoPaths]
+physics.trigger_paths : [TriggerInfoPaths]
 
 TrigNames_timeClusterBlockName: [ "TimeClusterBlockAprHighP"        , "TimeClusterBlockCprDeHighP"     ]
 TrigNames_timeClusterCollTag  : [ "AprTrkDe80m70pCollections"       , "CprTrkDe80m70pCollections"      ]
@@ -69,6 +72,7 @@ physics.analyzers.StntupleMaker.simpCollTag                   : "compressRecoMCs
 physics.analyzers.StntupleMaker.primaryParticleTag            : "compressRecoMCs"
 physics.analyzers.StntupleMaker.spmcCollTag                   : ["compressRecoMCs:virtualdetector"]
 physics.analyzers.StntupleMaker.vdHitsCollTag                 : "compressRecoMCs:virtualdetector"
+physics.analyzers.StntupleMaker.caloClusterMCMaker            : ""
 physics.analyzers.StntupleMaker.crvRecoPulseCollTag           :   "SelectReco"
 physics.analyzers.StntupleMaker.crvCoincidenceCollTag         :   "SelectReco"
 physics.analyzers.StntupleMaker.crvCoincidenceClusterCollTag  :   "SelectReco:CrvCoincidenceClusterFinder"

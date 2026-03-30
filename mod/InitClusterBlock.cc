@@ -237,6 +237,9 @@ int  StntupleInitMu2eClusterBlock(TStnDataBlock* Block, AbsEvent* Evt, int Mode)
         sumy2 += e*pos->y()*pos->y();
         trms  += std::pow(hit->time() - cluster->fTime, 2);
         r      = pos->perp();
+        cluster->fCrystalEnergies[qn-1] = e;
+        cluster->fCrystalTimes   [qn-1] = hit->time();
+        cluster->fCrystalIDs     [qn-1] = id;
 
         if (ih<2) { // most energetic two crystals
           e2 += e;
