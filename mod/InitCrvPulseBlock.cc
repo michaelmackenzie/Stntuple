@@ -4,7 +4,7 @@
 
 #include "Stntuple/mod/InitCrvPulseBlock.hh"
 #include "Offline/RecoDataProducts/inc/CrvRecoPulse.hh"
-#include "Offline/RecoDataProducts/inc/CrvCoincidence.hh"
+// #include "Offline/RecoDataProducts/inc/CrvCoincidence.hh"
 #include "Offline/RecoDataProducts/inc/CrvCoincidenceCluster.hh"
 
 //-----------------------------------------------------------------------------
@@ -40,8 +40,8 @@ int StntupleInitCrvPulseBlock::InitDataBlock(TStnDataBlock* Block, AbsEvent* Eve
     }
   }
   
-  const mu2e::CrvRecoPulse* p0(nullptr);
-  if (ncrp > 0) p0 = &crpc->at(0);
+  // const mu2e::CrvRecoPulse* p0(nullptr);
+  // if (ncrp > 0) p0 = &crpc->at(0);
 
   for (int i=0; i<ncrp; i++) {
     const mu2e::CrvRecoPulse* ralph = &crpc->at(i);
@@ -65,35 +65,35 @@ int StntupleInitCrvPulseBlock::InitDataBlock(TStnDataBlock* Block, AbsEvent* Eve
 //-----------------------------------------------------------------------------
 // store CrvCoincidences's
 //-----------------------------------------------------------------------------
-  art::Handle<mu2e::CrvCoincidenceCollection> ccch;
-  const mu2e::CrvCoincidenceCollection*       ccc(nullptr);
-  int                                         ncc(0);
+  // art::Handle<mu2e::CrvCoincidenceCollection> ccch;
+  // const mu2e::CrvCoincidenceCollection*       ccc(nullptr);
+  // int                                         ncc(0);
 
-  if (! fCrvCoincidenceCollTag.empty()) {
-    bool ok = Event->getByLabel(fCrvCoincidenceCollTag,ccch);
-    if (ok) { 
-      ccc = ccch.product();
-      ncc = ccc->size();
-    }
-  }
+  // if (! fCrvCoincidenceCollTag.empty()) {
+  //   bool ok = Event->getByLabel(fCrvCoincidenceCollTag,ccch);
+  //   if (ok) { 
+  //     ccc = ccch.product();
+  //     ncc = ccc->size();
+  //   }
+  // }
   
-  for (int icc=0; icc<ncc; icc++) {
-    const mu2e::CrvCoincidence* ralph_cc = &ccc->at(icc);
+  // for (int icc=0; icc<ncc; icc++) {
+  //   const mu2e::CrvCoincidence* ralph_cc = &ccc->at(icc);
 
-    TCrvCoincidence* cc = block->NewCoincidence();  // increments block->fNCoincidences
+  //   TCrvCoincidence* cc = block->NewCoincidence();  // increments block->fNCoincidences
 
-    const std::vector<art::Ptr<mu2e::CrvRecoPulse>>* list_of_pulses = &ralph_cc->GetCrvRecoPulses();
+  //   const std::vector<art::Ptr<mu2e::CrvRecoPulse>>* list_of_pulses = &ralph_cc->GetCrvRecoPulses();
 
-    int sector      = ralph_cc->GetCrvSectorType();
-    int np          = list_of_pulses->size();
+  //   int sector      = ralph_cc->GetCrvSectorType();
+  //   int np          = list_of_pulses->size();
 
-    cc->Set(icc,sector,np);
+  //   cc->Set(icc,sector,np);
 
-    for (int i=0; i<np; i++) {
-      int index = list_of_pulses->at(i).get()-p0;
-      block->fCoincidencePulseLinks->Add(icc,index);
-    }
-  }
+  //   for (int i=0; i<np; i++) {
+  //     int index = list_of_pulses->at(i).get()-p0;
+  //     block->fCoincidencePulseLinks->Add(icc,index);
+  //   }
+  // }
 
   return 0;
 }

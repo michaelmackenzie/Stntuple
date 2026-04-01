@@ -156,7 +156,7 @@ int  StntupleInitMu2eClusterBlock(TStnDataBlock* Block, AbsEvent* Evt, int Mode)
 
   constexpr double ROuterRing = 600.; // outer ring where cosmics deposit more energy
 
-  double                        sume, sume2, sumy, sumx, sumy2, sumx2, sumxy, qn;
+  double                        sume, sume2, sumy, sumx, sumy2, sumx2, sumxy; int qn;
   double                        e, e1(-1.), e2, emean, e2mean, trms, e9, e25, out_ring_e;
   double                        x_0, y_0, r, max_r;
 
@@ -227,7 +227,7 @@ int  StntupleInitMu2eClusterBlock(TStnDataBlock* Block, AbsEvent* Evt, int Mode)
       pos = &cr->localPosition();
 
       if (e > kMinECrystal) {
-        qn    += 1.;
+        ++qn;
         sume  += e;
         sume2 += e*e;
         sumx  += e*pos->x();

@@ -51,7 +51,7 @@ namespace mu2e {
   class CaloProtoCluster;
   class CrvDigi;
   class CrvRecoPulse;
-  class CrvCoincidence;
+  // class CrvCoincidence;
   class CrvCoincidenceCluster;
   // class TrkToCaloExtrapol;
   class StepPointMC;
@@ -181,12 +181,12 @@ public:
 //-----------------------------------------------------------------------------
 // CRV
 //-----------------------------------------------------------------------------
-  void printCrvCoincidence        (const mu2e::CrvCoincidence* CrvC  ,
-				   const char*                 Opt = "");
+  // void printCrvCoincidence        (const mu2e::CrvCoincidence* CrvC  ,
+  //       			   const char*                 Opt = "");
   
-  void printCrvCoincidenceCollection (const char* ModuleLabel, 
-				      const char* ProductName= "",
-				      const char* ProcessName= "");
+  // void printCrvCoincidenceCollection (const char* ModuleLabel, 
+  //       			      const char* ProductName= "",
+  //       			      const char* ProcessName= "");
 
   void printCrvCoincidenceCluster (const mu2e::CrvCoincidenceCluster* CrvC  ,
 				   const char*                        Opt = "");

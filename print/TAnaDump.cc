@@ -27,7 +27,6 @@
 
 #include "Offline/RecoDataProducts/inc/CrvDigi.hh"
 
-#include "Offline/RecoDataProducts/inc/CrvCoincidence.hh"
 #include "Offline/RecoDataProducts/inc/CrvCoincidenceCluster.hh"
 
 #include "Offline/RecoDataProducts/inc/StrawHit.hh"
@@ -517,78 +516,78 @@ void TAnaDump::printCaloProtoClusterCollection(const char* ModuleLabel,
 //-----------------------------------------------------------------------------
 // CRV
 //-----------------------------------------------------------------------------
-void TAnaDump::printCrvCoincidence(const mu2e::CrvCoincidence* Coin,
-				   const char*                 Opt ) {
-  TString opt = Opt;
+// void TAnaDump::printCrvCoincidence(const mu2e::CrvCoincidence* Coin,
+// 				   const char*                 Opt ) {
+//   TString opt = Opt;
 
-  const std::vector<art::Ptr<mu2e::CrvRecoPulse>>* list_of_pulses = &Coin->GetCrvRecoPulses();
+//   const std::vector<art::Ptr<mu2e::CrvRecoPulse>>* list_of_pulses = &Coin->GetCrvRecoPulses();
 
-  int sector      = Coin->GetCrvSectorType();
-  int np          = list_of_pulses->size();
+//   int sector      = Coin->GetCrvSectorType();
+//   int np          = list_of_pulses->size();
 
-  printf("---------------------------------------------------------------------\n");
-  printf("Coinc Addr: %-16p Sector: %5i N(pulses): %5i\n",static_cast<const void*>(Coin), sector, np);
+//   printf("---------------------------------------------------------------------\n");
+//   printf("Coinc Addr: %-16p Sector: %5i N(pulses): %5i\n",static_cast<const void*>(Coin), sector, np);
 
-  const mu2e::CrvRecoPulse* pulse(NULL);
-  printCrvRecoPulse(pulse, "banner");
-  for (int i=0; i<np; i++) {
-    pulse = list_of_pulses->at(i).get();
-    printCrvRecoPulse(pulse, "data");
-  }
+//   const mu2e::CrvRecoPulse* pulse(NULL);
+//   printCrvRecoPulse(pulse, "banner");
+//   for (int i=0; i<np; i++) {
+//     pulse = list_of_pulses->at(i).get();
+//     printCrvRecoPulse(pulse, "data");
+//   }
   
-  if (opt.Index("hits") >= 0) {
-  }
-}
+//   if (opt.Index("hits") >= 0) {
+//   }
+// }
 
-//-----------------------------------------------------------------------------
-void TAnaDump::printCrvCoincidenceCollection(const char* ModuleLabel, 
-					     const char* ProductName,
-					     const char* ProcessName) {
+// //-----------------------------------------------------------------------------
+// void TAnaDump::printCrvCoincidenceCollection(const char* ModuleLabel, 
+// 					     const char* ProductName,
+// 					     const char* ProcessName) {
 
-  art::Handle<mu2e::CrvCoincidenceCollection> handle;
-  const mu2e::CrvCoincidenceCollection*       coinColl;
+//   art::Handle<mu2e::CrvCoincidenceCollection> handle;
+//   const mu2e::CrvCoincidenceCollection*       coinColl;
 
-  if (ProductName[0] != 0) {
-    art::Selector  selector(art::ProductInstanceNameSelector(ProductName) &&
-			    art::ProcessNameSelector(ProcessName)         && 
-			    art::ModuleLabelSelector(ModuleLabel)            );
-    fEvent->get(selector,handle);
-  }
-  else {
-    art::Selector  selector(art::ProcessNameSelector(ProcessName)         && 
-			    art::ModuleLabelSelector(ModuleLabel)            );
-    fEvent->get(selector,handle);
-  }
-//-----------------------------------------------------------------------------
-// make sure collection exists
-//-----------------------------------------------------------------------------
-  if (! handle.isValid()) {
-    printf("TAnaDump::printCrvCoincidenceCollection: no CrvCoincidenceCollection ");
-    printf("for module %s and ProductName=%s found, BAIL OUT\n",
-	   ModuleLabel,ProductName);
-    return;
-  }
+//   if (ProductName[0] != 0) {
+//     art::Selector  selector(art::ProductInstanceNameSelector(ProductName) &&
+// 			    art::ProcessNameSelector(ProcessName)         && 
+// 			    art::ModuleLabelSelector(ModuleLabel)            );
+//     fEvent->get(selector,handle);
+//   }
+//   else {
+//     art::Selector  selector(art::ProcessNameSelector(ProcessName)         && 
+// 			    art::ModuleLabelSelector(ModuleLabel)            );
+//     fEvent->get(selector,handle);
+//   }
+// //-----------------------------------------------------------------------------
+// // make sure collection exists
+// //-----------------------------------------------------------------------------
+//   if (! handle.isValid()) {
+//     printf("TAnaDump::printCrvCoincidenceCollection: no CrvCoincidenceCollection ");
+//     printf("for module %s and ProductName=%s found, BAIL OUT\n",
+// 	   ModuleLabel,ProductName);
+//     return;
+//   }
 
-  coinColl = handle.product();
+//   coinColl = handle.product();
 
-  int ncoin = coinColl->size();
+//   int ncoin = coinColl->size();
 
-  printf(">>>> ModuleLabel = %s N(coincidences) = %5i\n",ModuleLabel,ncoin);
+//   printf(">>>> ModuleLabel = %s N(coincidences) = %5i\n",ModuleLabel,ncoin);
 
-  const mu2e::CrvCoincidence* coin;
+//   const mu2e::CrvCoincidence* coin;
 
-  //  int banner_printed = 0;
-  for (int i=0; i<ncoin; i++) {
-    coin = &coinColl->at(i);
-    //    if (banner_printed == 0) {
-    //    printCrvCoincidence(coin, "banner");
-    // banner_printed = 1;
-    //  }
+//   //  int banner_printed = 0;
+//   for (int i=0; i<ncoin; i++) {
+//     coin = &coinColl->at(i);
+//     //    if (banner_printed == 0) {
+//     //    printCrvCoincidence(coin, "banner");
+//     // banner_printed = 1;
+//     //  }
 
-    printCrvCoincidence(coin,"banner+data");
-  }
+//     printCrvCoincidence(coin,"banner+data");
+//   }
  
-}
+// }
 
 
 //-----------------------------------------------------------------------------
