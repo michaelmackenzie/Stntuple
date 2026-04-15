@@ -251,19 +251,31 @@ double TStntuple::DioWeightTi(double E) {
 }
 
 //-----------------------------------------------------------------------------
-// RMC closure approximation weight, 
+// RMC closure approximation weight,
 // normalization: integral(weight,0,KMax) = KMax, such that the distribution
-// on N events sampled uniformly from 0 to KMax with the given weight 
+// on N events sampled uniformly from 0 to KMax with the given weight
 // has a sum of weights equal to N
 //-----------------------------------------------------------------------------
 double TStntuple::RMC_ClosureAppxWeight(double K, double KMax) {
-  double x, w{20.}, weight{0};
+  if(KMax <= 0.) return 0.;
+  if(K <= 0. || K >= KMax) return 0.;
 
-  x = K/KMax;
-  if (x < 1)  weight = w*(1-2*x+2*x*x)*(1-x)*(1-x)*x;
-
+  const double norm = 20. / KMax; // normalize the PDF to 1 over E in [0, KMax]
+  const double x = K/KMax;
+  const double weight = norm*(1-2*x+2*x*x)*(1-x)*(1-x)*x;
   return weight;
-  
+}
+
+// Integral from k_1 to k_2 of the closure approximation spectrum shape
+double TStntuple::RMC_ClosureAppxIntegral(double K_1, double K_2, double KMax) {
+  if(KMax <= 0.) return 0.;
+  const double x_1 = std::max(0., std::min(KMax, K_1))/KMax;
+  const double x_2 = std::max(0., std::min(KMax, K_2))/KMax;
+  if(x_1 >= x_2) return 0.;
+  const double val_1 = -1./3.*x_1*x_1*(-20.*pow(x_1,4)+72.*pow(x_1,3) -105.*x_1*x_1 + 80.*x_1 - 30.);
+  const double val_2 = -1./3.*x_2*x_2*(-20.*pow(x_2,4)+72.*pow(x_2,3) -105.*x_2*x_2 + 80.*x_2 - 30.);
+  const double integral = (val_2 - val_1);
+  return integral;
 }
 
 //-----------------------------------------------------------------------------

@@ -63,10 +63,11 @@ public:
   static double MichelWeight  (double E);
   static double DioWeightTi   (double P);
 
-  static double RMC_ClosureAppxWeight (double K, double KMax);
-  static double RMC_PlestidIntegral   (double K_1, double K_2, double KMax, int knockout);
-  static double RMC_PlestidWeight     (double K, double KMax, int knockout);
-  static double RPC_PhotonEnergyWeight(double E);
+  static double RMC_ClosureAppxWeight  (double K, double KMax);
+  static double RMC_ClosureAppxIntegral(double K_1, double K_2, double KMax);
+  static double RMC_PlestidWeight      (double K, double KMax, int knockout);
+  static double RMC_PlestidIntegral    (double K_1, double K_2, double KMax, int knockout);
+  static double RPC_PhotonEnergyWeight (double E);
 
 
 //-----------------------------------------------------------------------------
