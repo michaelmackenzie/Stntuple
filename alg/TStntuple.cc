@@ -267,6 +267,39 @@ double TStntuple::RMC_ClosureAppxWeight(double K, double KMax) {
 }
 
 //-----------------------------------------------------------------------------
+// RMC plestid phase-space approximation weight
+// Normalization is defined to be 1 from 0 - inf dk
+// k = photon energy
+// kmax = endpoint
+// knockout = N(nucleons knocked out)
+//-----------------------------------------------------------------------------
+double TStntuple::RMC_PlestidWeight(double K, double KMax, int knockout) {
+  if(K > KMax || K < 0. || KMax <= 0.) return 0.;
+  if(knockout < 0) return 0.;
+  const double power = 2. + 1.5*knockout;
+  const double norm = (power + 1.) * (power + 2.) / KMax;
+  const double x = K / KMax;
+  const double weight = norm * x * std::pow(1. - x, power);
+  return weight;
+}
+
+// Integral from k_1 to k_2 of the Plestid phase-space approximation spectrum shape
+double TStntuple::RMC_PlestidIntegral(double K_1, double K_2, double KMax, int knockout) {
+  if(KMax <= 0.) return 0.;
+  if(knockout < 0) return 0.;
+  K_1 = std::max(0., std::min(KMax, K_1));
+  K_2 = std::max(0., std::min(KMax, K_2));
+  if(K_1 >= K_2) return 0.;
+  const double power = 2. + 1.5*knockout;
+  const double x_1 = K_1 / KMax;
+  const double x_2 = K_2 / KMax;
+  const double val_1 = (x_1 - 1.)*std::pow(1-x_1, power)*(power*x_1+x_1+1.);
+  const double val_2 = (x_2 - 1.)*std::pow(1-x_2, power)*(power*x_2+x_2+1.);
+  const double integral = val_2 - val_1;
+  return integral;
+}
+
+//-----------------------------------------------------------------------------
 // RPC photon weight 
 // normalization: integral(weight,0,eMax) = eMax, such that the distribution
 // on N events sampled uniformly from 0 to eMax with the given weight has an 
