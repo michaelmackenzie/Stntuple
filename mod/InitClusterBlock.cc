@@ -159,6 +159,7 @@ int  StntupleInitMu2eClusterBlock(TStnDataBlock* Block, AbsEvent* Evt, int Mode)
   double                        sume, sume2, sumy, sumx, sumy2, sumx2, sumxy; int qn;
   double                        e, e1(-1.), e2, emean, e2mean, trms, e9, e25, out_ring_e;
   double                        x_0, y_0, r, max_r;
+  double                        tmean; // mean hit time in cluster no energy weighting
 
   ncl = list_of_clusters->size();
   for (int i=0; i<ncl; i++) {
@@ -214,14 +215,31 @@ int  StntupleInitMu2eClusterBlock(TStnDataBlock* Block, AbsEvent* Evt, int Mode)
     x_0        = 0.; // X of highest energy hit
     y_0        = 0.; // Y of highest energy hit
     max_r      = 0.; // Largest distance between main crystal and other crystals
+    tmean      = 0.; // mean hit time in cluster no energy weighting
 
     // main crystal neighbors and next neighbors
     std::vector<int> neighbors, nneighbors;
+
+    // compute mean hit time to later compute trms
+    for (int ih=0; ih<nh; ih++) {
+      hit = &(*list_of_crystals.at(ih));
+      e  = hit->energyDep();
+      if (e > kMinECrystal) {
+        ++qn;
+        tmean += hit->time();
+      }
+    }
+
+    if (qn > 0) tmean /= qn;
+    qn = 0; // reset so we can use counter again in the next loop
 
     for (int ih=0; ih<nh; ih++) {
       hit = &(*list_of_crystals.at(ih));
       e   = hit->energyDep();
       id  = hit->crystalID();
+      cluster->fCrystalEnergies[ih] = e;
+      cluster->fCrystalTimes   [ih] = hit->time();
+      cluster->fCrystalIDs     [ih] = id;
       const mu2e::Crystal* cr = &cal->crystal(id);
 
       pos = &cr->localPosition();
@@ -235,11 +253,8 @@ int  StntupleInitMu2eClusterBlock(TStnDataBlock* Block, AbsEvent* Evt, int Mode)
         sumx2 += e*pos->x()*pos->x();
         sumxy += e*pos->x()*pos->y();
         sumy2 += e*pos->y()*pos->y();
-        trms  += std::pow(hit->time() - cluster->fTime, 2);
+        trms  += std::pow(hit->time() - tmean, 2);
         r      = pos->perp();
-        cluster->fCrystalEnergies[qn-1] = e;
-        cluster->fCrystalTimes   [qn-1] = hit->time();
-        cluster->fCrystalIDs     [qn-1] = id;
 
         if (ih<2) { // most energetic two crystals
           e2 += e;
