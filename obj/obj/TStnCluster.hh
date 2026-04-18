@@ -156,13 +156,13 @@ public:
 
   // sparse crystal info
   float   CrystalE    (const int index) const {
-    return (index > 0 && index < NCrystals()) ? fCrystalEnergies[index] : 0.f;
+    return (index >= 0 && index < NCrystals()) ? fCrystalEnergies[index] : 0.f;
   }
   float   CrystalT    (const int index) const {
-    return (index > 0 && index < NCrystals()) ? fCrystalTimes[index] : 0.f;
+    return (index >= 0 && index < NCrystals()) ? fCrystalTimes[index] : 0.f;
   }
   int   CrystalID   (const int index) const {
-    return (index > 0 && index < NCrystals()) ? fCrystalIDs[index] : 0;
+    return (index >= 0 && index < NCrystals()) ? fCrystalIDs[index] : 0;
   }
 
   // linked track
