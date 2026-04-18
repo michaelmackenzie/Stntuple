@@ -178,6 +178,11 @@ TStnCluster::TStnCluster(Int_t Number) {
   fMCSimMomIn   = -1.f;
   fMCEDep       = -1.f;
   fMCTime       =  0.f;
+  for(int index = 0; index < kMaxCrystals; ++index) {
+    fCrystalEnergies[index] = 0.f;
+    fCrystalTimes   [index] = 0.f;
+    fCrystalIDs     [index] = 0  ;
+  }
 }
 
 
@@ -199,6 +204,11 @@ void TStnCluster::Clear(Option_t* opt) {
   fMCSimEDep    = -1.f;
   fMCEDep       = -1.f;
   fMCTime       =  0.f;
+  for(int index = 0; index < kMaxCrystals; ++index) {
+    fCrystalEnergies[index] = 0.f;
+    fCrystalTimes   [index] = 0.f;
+    fCrystalIDs     [index] = 0  ;
+  }
 }
 
 //-----------------------------------------------------------------------------

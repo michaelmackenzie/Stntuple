@@ -36,7 +36,7 @@ OfflineNames_tcmCollTag             : [ ""                  ,  ""               
 OfflineNames_trackSHBlockName       : [ ""                  ,  ""                  , ""                   ,  ""                    ]
 OfflineNames_pidBlockName           : [ ""                  ,  ""                  , ""                   ,  ""                    ]
 OfflineNames_pidCollTag             : [ ""                  ,  ""                  , ""                   ,  ""                    ]
-OfflineNames_trkQualCollTag         : [ "TrkQualDe"         ,  "TrkQualUe"         , "TrkQualDmu"         ,  "TrkQualUmu"          ]
+OfflineNames_trkQualCollTag         : [ ""                  ,  ""                  , ""                   ,  ""                    ]
 OfflineNames_trackTsBlockName       : []
 OfflineNames_trackTsCollTag         : []
 END_PROLOG
@@ -119,29 +119,29 @@ physics : {
     @sequence::Reconstruction.TrkHitReco,
     @sequence::Reconstruction.CrvReco,
     @sequence::Reconstruction.DeReco,
-    MergeKKDe, TrkQualDe,
+    # MergeKKDe, TrkQualDe,
     @sequence::RecoMC #FIXME: Only in one path for now
   ]
 
   RecoUe : [  @sequence::Reconstruction.CaloReco,
     @sequence::Reconstruction.TrkHitReco,
     @sequence::Reconstruction.CrvReco,
-    @sequence::Reconstruction.UeReco,
-    MergeKKUe, TrkQualUe
+    @sequence::Reconstruction.UeReco
+    # MergeKKUe, TrkQualUe
   ]
 
   RecoDmu : [  @sequence::Reconstruction.CaloReco,
     @sequence::Reconstruction.TrkHitReco,
     @sequence::Reconstruction.CrvReco,
-    @sequence::Reconstruction.DmuReco,
-    MergeKKDmu, TrkQualDmu
+    @sequence::Reconstruction.DmuReco
+    # MergeKKDmu, TrkQualDmu
   ]
 
   RecoUmu : [  @sequence::Reconstruction.CaloReco,
     @sequence::Reconstruction.TrkHitReco,
     @sequence::Reconstruction.CrvReco,
-    @sequence::Reconstruction.UmuReco,
-    MergeKKUmu, TrkQualUmu
+    @sequence::Reconstruction.UmuReco
+    # MergeKKUmu, TrkQualUmu
   ]
 
   lumiStream    : [ ] # Don't run lumi stream reco for now
