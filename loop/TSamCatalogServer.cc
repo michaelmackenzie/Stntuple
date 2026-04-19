@@ -266,8 +266,8 @@ int TSamCatalogServer::InitListOfFilesets(TStnDataset* Dataset,
 // skip comment, html and empty lines, 
 //-----------------------------------------------------------------------------
   // TString sam_defname = Form("nts.mu2e.%s.%s.stn",Dataset->GetName(),Dataset->GetBook());
-  TString sam_defname = Form("nts.${USER}.%s.%s.stn",Dataset->GetName(),Dataset->GetBook());
-  cmd = Form("setup dhtools; DATASET=`samweb list-definitions --group=mu2e | grep %s | grep .stn$ | grep %s | tail -n 1`; ",Dataset->GetBook(),Dataset->GetName());
+  TString sam_defname = Form("%s.%s.stn",Dataset->GetName(),Dataset->GetBook()); // should be nts.<user/mu2e>.<name>.<book>.stn
+  cmd = Form("setup dhtools; DATASET=`samweb list-definitions --group=mu2e | grep %s | grep ^nts. | grep .stn$ | grep %s | tail -n 1`; ",Dataset->GetBook(),Dataset->GetName());
   // cmd += Form("samweb list-file-locations --dimensions \"dh.dataset ${DATASET}\""); //,sam_defname.Data());
   cmd += Form("setup mu2efiletools; mu2eDatasetFileList ${DATASET}"); //,sam_defname.Data());
 
