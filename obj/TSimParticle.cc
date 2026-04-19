@@ -273,15 +273,16 @@ void TSimParticle::Print(Option_t* Opt) const {
   TString opt = Opt;
   if ((opt.Index("banner") >= 0) || (opt == "")) {
 				// print banner
-    printf("-----------------------------------------------------");
     printf("------------------------------------------------------------------------------------------");
-    printf("-----------------------------------------------------------------------------------------------\n");
-    printf("   i name                      PDG  ID/Stg GenID Prnt");
-    printf("      p0x        p0y        p0z       p0     vol0     v0x        v0y      v0z      t0   t0p/tau");
-    printf("      p1x        p1y        p1z       p1     vol1     v1x        v1y      v1z      t1   t1p/tau Nsh\n");
-    printf("-----------------------------------------------------");
+    printf("-----------------------------------------------------------------------------------------\n");
+    // printf("   i name                      PDG  ID/Stg CrID  Prnt Prim");
+    // printf("      p0x        p0y        p0z       p0     vol0     v0x        v0y      v0z      t0   t0p/tau");
+    // printf("      p1x        p1y        p1z       p1     vol1     v1x        v1y      v1z      t1   t1p/tau Nsh\n");
+    printf("   i name       PDG  ID/Stg Prnt CrID Prim");
+    printf("     p0x     p0y     p0z     p0   vol0     v0x     v0y     v0z        t0");
+    printf("     p1z     p1  vol1     v1x     v1y     v1z      t1 t1p/tau Nsh\n");
     printf("------------------------------------------------------------------------------------------");
-    printf("-----------------------------------------------------------------------------------------------\n");
+    printf("-----------------------------------------------------------------------------------------\n");
   }
 
   TDatabasePDG* db = TDatabasePDG::Instance();
@@ -291,34 +292,32 @@ void TSimParticle::Print(Option_t* Opt) const {
   if ((opt.Index("data") >= 0) || (opt == "")) {
     printf("%4i",Number());
 
-    if (pdg) printf(" %-19s",pdg->GetName());
-    else          printf(" %-19s","*** unknown ***");
+    if (pdg) printf(" %-9s",pdg->GetName());
+    else          printf(" %-9s","unknown");
 
-    printf("%10i"  ,fPdgCode);
-    printf("%4i/%2i",GetUniqueID(),SimStage());
-    printf("%6i"   ,fGeneratorID);
-    printf("%6i"   ,fParentID);
-    printf("%11.3f",fStartMom.Px());
-    printf("%11.3f",fStartMom.Py());
-    printf("%11.3f",fStartMom.Pz());
-    printf("%10.3f",fStartMom.P());
-    printf("%6i"   ,fStartVolumeIndex);
-    printf("%10.3f",fStartPos.X());
-    printf("%10.3f",fStartPos.Y());
-    printf("%10.3f",fStartPos.Z());
-    printf("%10.3e",fStartPos.T());
-    printf("%6.2f" ,fStartProperTime);
-    printf("%11.3f",fEndMom.Px());
-    printf("%11.3f",fEndMom.Py());
-    printf("%11.3f",fEndMom.Pz());
-    printf("%10.3f",fEndMom.P());
-    printf("%6i"   ,fEndVolumeIndex);
-    printf("%10.3f",fEndPos.X());
-    printf("%10.3f",fEndPos.Y());
-    printf("%10.3f",fEndPos.Z());
-    printf("%10.3e",fEndPos.T());
-    printf("%6.2f" ,fEndProperTime);
-    printf("%4i"   ,NStrawHits());
+    printf("%5i"    ,fPdgCode);
+    printf("%5i/%1i",GetUniqueID(),SimStage());
+    printf("%6i"    ,fParentID);
+    printf("%5i"    ,CreationCode());
+    printf("%5o"    ,IsPrimary());
+    printf("%8.2f"  ,fStartMom.Px());
+    printf("%8.2f"  ,fStartMom.Py());
+    printf("%8.2f"  ,fStartMom.Pz());
+    printf("%8.2f"  ,fStartMom.P());
+    printf("%6i"    ,fStartVolumeIndex);
+    printf("%8.1f"  ,fStartPos.X());
+    printf("%8.1f"  ,fStartPos.Y());
+    printf("%8.1f"  ,fStartPos.Z());
+    printf("%10.3e" ,fStartPos.T());
+    printf("%8.2f"  ,fEndMom.Pz());
+    printf("%7.2f"  ,fEndMom.P());
+    printf("%6i"    ,fEndVolumeIndex);
+    printf("%8.1f"  ,fEndPos.X());
+    printf("%8.1f"  ,fEndPos.Y());
+    printf("%8.1f"  ,fEndPos.Z());
+    printf("%10.3e" ,fEndPos.T());
+    printf("%6.2f"  ,fEndProperTime);
+    printf("%4i"    ,NStrawHits());
     printf("\n");
   }
 }

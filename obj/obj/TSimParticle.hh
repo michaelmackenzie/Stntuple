@@ -20,7 +20,7 @@ class TSimParticle : public TObject {
 public:
   int             fParentID;
   int             fPdgCode;
-  int             fCreationCode;
+  int             fCreationCode;        // Creation code + (is_primary << 16)
   int             fStartVolumeIndex;
   int             fTerminationCode;
   int             fEndVolumeIndex;
@@ -66,7 +66,8 @@ public:
 // accessors
 // use TObject::GetUniqueID() to access the TSimParticle ID
 //-----------------------------------------------------------------------------
-  int    CreationCode() const { return fCreationCode; }
+  int    CreationCode() const { return (fCreationCode       ) & 0xffff; }
+  bool   IsPrimary   () const { return ((fCreationCode >> 16) & 0xffff) != 0; }
   int    GeneratorID () const { return fGeneratorID;  }
   int    NStrawHits  () const { return (fNStrawHits      ) & 0xffff; }
   int    SimStage    () const { return (fNStrawHits >> 16) & 0xffff; }

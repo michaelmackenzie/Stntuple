@@ -244,58 +244,66 @@ int StntupleInitSimpBlock::InitDataBlock(TStnDataBlock* Block, AbsEvent* AnEvent
 
       const bool is_pion = std::abs(pdg_code) == 211;
       const bool is_pbar = pdg_code == -2212;
+
+      bool accepted = false; // whether or not to accept the sim
+
+      // Keep all primaries
+      bool is_primary = false;
       if (pp != nullptr) {
-        bool found = 0;
+        bool found = false;
         for (auto pr : pp->primarySimParticles()) {
           if (pr.get() == sim) {
             found = true;
             break;
           }
         }
-
-        // check a for important Process codes that may not get labeled "PrimaryParticle"
-        found |= process_id == mu2e::ProcessCode::mu2eGammaConversion;
-        found |= process_id == mu2e::ProcessCode::mu2eInternalRMC    ;
-        found |= process_id == mu2e::ProcessCode::mu2eExternalRMC    ;
-        found |= process_id == mu2e::ProcessCode::mu2eInternalRPC    ;
-        found |= process_id == mu2e::ProcessCode::mu2eExternalRPC    ;
-        found |= process_id == mu2e::ProcessCode::mu2eFlatPhoton     ;
-        found |= is_pion && is_rpc                                   ; // save pions for reweighting RPC
-        found |= is_pbar                                             ; // save pbar for reweighting
-
-        // Check if this is a relevant particle for tracking studies
-        constexpr float min_relevant_mom = 30.; // the point at which we may reconstruct the track
-        constexpr int   min_nhits        = 12;  // minimum number of hits to be relevant to reconstruction
-        const bool relevant_particle = sim->startMomentum().vect().mag() > min_relevant_mom
-                                       && (std::abs(pdg_code) == 11 || std::abs(pdg_code) == 13 || std::abs(pdg_code) == 211);
-        const bool relevant_track = (nhits > min_nhits && relevant_particle);
-        if(verbose > 0 && !found && relevant_track)
-          printf("InitSimpBlock::%s: Relevant Trk SIM: ID = %4i, PDG = %5i, Code = %s\n",
-                 __func__, id, pdg_code, sim->creationCode().name().c_str());
-        found |= relevant_track;
-
-        // If not yet found but reasonable momentum, check if there is a reconstructed track associated with this SimParticle
-        if (!found && relevant_particle) {
-          for (const auto& coll : track_mc_colls) {
-            for (const auto& track : *coll) {
-              int nhits = 0;
-              for(auto& hit : track.trkStrawHitMCs()) {
-                auto stub = track.simParticle(hit);
-                if(stub._spkey == sim->id()) nhits++;
-                found |= nhits > min_nhits;
-                if(found) break;
-              }
-              if(found) break;
-            }
-            if(found) break;
-          }
-        }
-
-        if(verbose > 1) printf("InitSimpBlock::%s: Checking SIM: ID = %4i, PDG = %5i, Code = %s --> found = %o\n",
-                               __func__, id, pdg_code, sim->creationCode().name().c_str(), found);
-
-	if (!found)                                     continue;
+        is_primary = found;
       }
+      accepted |= is_primary;
+
+      // check a for important Process codes that may not get labeled "PrimaryParticle"
+      accepted |= process_id == mu2e::ProcessCode::mu2eGammaConversion;
+      accepted |= process_id == mu2e::ProcessCode::mu2eInternalRMC    ;
+      accepted |= process_id == mu2e::ProcessCode::mu2eExternalRMC    ;
+      accepted |= process_id == mu2e::ProcessCode::mu2eInternalRPC    ;
+      accepted |= process_id == mu2e::ProcessCode::mu2eExternalRPC    ;
+      accepted |= process_id == mu2e::ProcessCode::mu2eFlatPhoton     ;
+      accepted |= is_pion && is_rpc                                   ; // save pions for reweighting RPC
+      accepted |= is_pbar                                             ; // save pbar for reweighting
+
+      // Check if this is a relevant particle for tracking studies
+      constexpr float min_relevant_mom = 30.; // the point at which we may reconstruct the track
+      constexpr int   min_nhits        = 12;  // minimum number of hits to be relevant to reconstruction
+      const bool relevant_particle = sim->startMomentum().vect().mag() > min_relevant_mom
+        && (std::abs(pdg_code) == 11 || std::abs(pdg_code) == 13 || std::abs(pdg_code) == 211);
+      const bool relevant_track = (nhits > min_nhits && relevant_particle);
+      if(verbose > 0 && !accepted && relevant_track)
+        printf("InitSimpBlock::%s: Relevant Trk SIM: ID = %4i, PDG = %5i, Code = %s\n",
+               __func__, id, pdg_code, sim->creationCode().name().c_str());
+      accepted |= relevant_track;
+
+      // If not yet found but reasonable momentum, check if there is a reconstructed track associated with this SimParticle
+      if (!accepted && relevant_particle) {
+        for (const auto& coll : track_mc_colls) {
+          for (const auto& track : *coll) {
+            int nhits = 0;
+            for(auto& hit : track.trkStrawHitMCs()) {
+              auto stub = track.simParticle(hit);
+              if(stub._spkey == sim->id()) nhits++;
+              accepted |= nhits > min_nhits;
+              if(accepted) break;
+            }
+            if(accepted) break;
+          }
+          if(accepted) break;
+        }
+      }
+
+      if(verbose > 1) printf("InitSimpBlock::%s: Checking SIM: ID = %4i, PDG = %5i, Code = %s --> accepted = %o\n",
+                             __func__, id, pdg_code, sim->creationCode().name().c_str(), accepted);
+
+      if (!accepted)                                     continue;
+
       if(verbose) printf("InitSimpBlock::%s: Accepting SIM: ID = %4i, PDG = %5i, Code = %s, N(hits) = %2i, p(start) = %6.1f, t(start) = %7.1f, t(end) = %7.1f\n",
                          __func__, id, pdg_code, sim->creationCode().name().c_str(), nhits,
                          sim->startMomentum().vect().mag(), std::fmod(sim->startGlobalTime(), 1695), std::fmod(sim->endGlobalTime(), 1695));
@@ -342,8 +350,9 @@ int StntupleInitSimpBlock::InitDataBlock(TStnDataBlock* Block, AbsEvent* AnEvent
       //   if ((fMinNStrawHits   >= 0) and (nhits < fMinNStrawHits )) continue;
       // }
 
+      const int creation_and_primary = (creation_code & 0xfff) | (is_primary << 16); // pack creation code and is primary flag together
       simp   = simp_block->NewParticle(id, parent_id, pdg_code        , 
-				       creation_code, termination_code,
+				       creation_and_primary, termination_code,
 				       start_vol_id , end_vol_id      ,
 				       process_id);
       simp->SetStartMom(px, py, pz, energy);
