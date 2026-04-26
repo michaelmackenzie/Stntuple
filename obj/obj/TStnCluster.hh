@@ -104,6 +104,8 @@ public:
   float                     fCrystalEnergies[kMaxCrystals];
   float                     fCrystalTimes   [kMaxCrystals];
   int                       fCrystalIDs     [kMaxCrystals];
+  float                     fCrystalXs      [kMaxCrystals];
+  float                     fCrystalYs      [kMaxCrystals];
 //-----------------------------------------------------------------------------
 // transients
 //-----------------------------------------------------------------------------
@@ -180,7 +182,7 @@ public:
 //-----------------------------------------------------------------------------
   void ReadV1(TBuffer& R__b);
 
-  ClassDef(TStnCluster,4)
+  ClassDef(TStnCluster,5)
 };
 
 #endif

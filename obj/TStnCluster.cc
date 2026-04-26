@@ -138,11 +138,22 @@ void TStnCluster::Streamer(TBuffer& R__b) {
           fCrystalEnergies[index] = 0.f;
           fCrystalTimes   [index] = 0.f;
           fCrystalIDs     [index] = 0  ;
+          fCrystalXs      [index] = 0.f;
+          fCrystalYs      [index] = 0.f;
         }
       } else {
         R__b.ReadFastArray(fCrystalEnergies,ncr);
         R__b.ReadFastArray(fCrystalTimes   ,ncr);
         R__b.ReadFastArray(fCrystalIDs     ,ncr);
+        if(R__v < 5) { // crystal x/y added in V5
+          for(int index = 0; index < ncr; ++index) {
+            fCrystalXs      [index] = 0.f;
+            fCrystalYs      [index] = 0.f;
+          }
+        } else {
+          R__b.ReadFastArray(fCrystalXs,ncr);
+          R__b.ReadFastArray(fCrystalYs,ncr);
+        }
       }
     }
   }
@@ -156,6 +167,8 @@ void TStnCluster::Streamer(TBuffer& R__b) {
     R__b.WriteFastArray(fCrystalEnergies,ncr);
     R__b.WriteFastArray(fCrystalTimes   ,ncr);
     R__b.WriteFastArray(fCrystalIDs     ,ncr);
+    R__b.WriteFastArray(fCrystalXs      ,ncr);
+    R__b.WriteFastArray(fCrystalYs      ,ncr);
   }
 }
 
@@ -182,6 +195,8 @@ TStnCluster::TStnCluster(Int_t Number) {
     fCrystalEnergies[index] = 0.f;
     fCrystalTimes   [index] = 0.f;
     fCrystalIDs     [index] = 0  ;
+    fCrystalXs      [index] = 0.f;
+    fCrystalYs      [index] = 0.f;
   }
 }
 
@@ -208,6 +223,8 @@ void TStnCluster::Clear(Option_t* opt) {
     fCrystalEnergies[index] = 0.f;
     fCrystalTimes   [index] = 0.f;
     fCrystalIDs     [index] = 0  ;
+    fCrystalXs      [index] = 0.f;
+    fCrystalYs      [index] = 0.f;
   }
 }
 

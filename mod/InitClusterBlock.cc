@@ -237,12 +237,14 @@ int  StntupleInitMu2eClusterBlock(TStnDataBlock* Block, AbsEvent* Evt, int Mode)
       hit = &(*list_of_crystals.at(ih));
       e   = hit->energyDep();
       id  = hit->crystalID();
+      const mu2e::Crystal* cr = &cal->crystal(id);
+      pos = &cr->localPosition();
+
       cluster->fCrystalEnergies[ih] = e;
       cluster->fCrystalTimes   [ih] = hit->time();
       cluster->fCrystalIDs     [ih] = id;
-      const mu2e::Crystal* cr = &cal->crystal(id);
-
-      pos = &cr->localPosition();
+      cluster->fCrystalXs      [ih] = pos->x();
+      cluster->fCrystalYs      [ih] = pos->y();
 
       if (e > kMinECrystal) {
         ++qn;
