@@ -11,7 +11,7 @@ Import('stntuple_helper')
 def local_build():
 
     local_env = stntuple_env.Clone();
-    babarlibs = local_env['BABARLIBS']
+    babarlibs = [] #local_env['BABARLIBS']
     rootlibs  = local_env['ROOTLIBS' ]
     if ( not ("EG" in rootlibs)):
         rootlibs.insert(rootlibs.index("Physics")+1,"EG");

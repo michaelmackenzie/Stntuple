@@ -21,7 +21,7 @@
 #include "TRandom.h"
 
 class PlestidHillInternalRadiativeCapture {
-    
+
 public :
   int verbose_; // Control output verbosity
   double alpha_;
@@ -43,10 +43,10 @@ public :
 
   void Print() {
     std::cout << "PlestidHillInternalRadiativeCapture:" << std::endl
-	      << " M(e)       = " << me_ << std::endl
-	      << " M(decay)   = " << mdecay_ << std::endl
-	      << " alpha      = " << alpha_ << std::endl
-	      << " verbose    = " << verbose_ << std::endl;
+              << " M(e)       = " << me_ << std::endl
+              << " M(decay)   = " << mdecay_ << std::endl
+              << " alpha      = " << alpha_ << std::endl
+              << " verbose    = " << verbose_ << std::endl;
   }
 
   double Probability(double positron_energy, double photon_energy) {
@@ -60,26 +60,26 @@ public :
     //m*+-
     const double m_star_p = sqrt(2.*(me_*me_+m_val+positron_energy*photon_energy-positron_energy*positron_energy));
     const double m_star_m = sqrt(2.*(me_*me_-m_val+positron_energy*photon_energy-positron_energy*positron_energy));
-      
+
 
     double prob = alpha_/M_PI/photon_energy*log(m_star_p/m_star_m);
-    if(verbose_ > 1) 	  std::cout << "PlestidHillInternalRadiativeCapture::" << __func__ 
-				    << ": Probability = " 
-				    << prob << " lepton energy = " << positron_energy
-				    << " photon energy = " << photon_energy 
-				    << std::endl;
+    if(verbose_ > 1)      std::cout << "PlestidHillInternalRadiativeCapture::" << __func__
+                                    << ": Probability = "
+                                    << prob << " lepton energy = " << positron_energy
+                                    << " photon energy = " << photon_energy
+                                    << std::endl;
 
     if(prob < 0.) {
-      if(verbose_ > 0) 
-	std::cout << "PlestidHillInternalRadiativeCapture::" << __func__ 
-		  << ": Negative probability, " 
-		  << prob << ", for lepton energy = " << positron_energy
-		  << " and photon energy = " << photon_energy 
-		  << "! Setting to 0...\n";
+      if(verbose_ > 0)
+        std::cout << "PlestidHillInternalRadiativeCapture::" << __func__
+                  << ": Negative probability, "
+                  << prob << ", for lepton energy = " << positron_energy
+                  << " and photon energy = " << photon_energy
+                  << "! Setting to 0...\n";
       prob = 0.;
     }
     return prob;
   }
-    
+
 };
 #endif

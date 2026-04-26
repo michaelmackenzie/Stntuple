@@ -62,13 +62,14 @@
 #include "Offline/CommonMC/inc/TrkMCTools.hh"
 
 // BTRK (BaBar) includes
-#include "BTrk/BbrGeom/HepPoint.h"
-#include "BTrk/BbrGeom/TrkLineTraj.hh"
-#include "BTrk/TrkBase/TrkPoca.hh"
-#include "BTrk/KalmanTrack/KalHit.hh"
-#include "BTrk/KalmanTrack/KalRep.hh"
-#include "BTrk/TrkBase/HelixParams.hh"
-#include "BTrk/ProbTools/ChisqConsistency.hh"
+#include "Stntuple/gui/HepPoint.hh"
+// #include "BTrk/BbrGeom/HepPoint.h"
+// #include "BTrk/BbrGeom/TrkLineTraj.hh"
+// #include "BTrk/TrkBase/TrkPoca.hh"
+// #include "BTrk/KalmanTrack/KalHit.hh"
+// #include "BTrk/KalmanTrack/KalRep.hh"
+// #include "BTrk/TrkBase/HelixParams.hh"
+// #include "BTrk/ProbTools/ChisqConsistency.hh"
 
 // #include "Offline/TrkReco/inc/TrkPrintUtils.hh"
 
@@ -1853,8 +1854,8 @@ void TAnaDump::printStepPointMC(const mu2e::StepPointMC* Step, const char* Detec
       printf("--------------------------------------------------------------------------------------------------------------------\n");
     }
 
-    mu2e::GeomHandle<mu2e::Tracker> ttHandle;
-    const mu2e::Tracker* tracker = ttHandle.get();
+    // mu2e::GeomHandle<mu2e::Tracker> ttHandle;
+    // const mu2e::Tracker* tracker = ttHandle.get();
   
     art::Ptr<mu2e::SimParticle> const& simptr = Step->simParticle();
     const mu2e::SimParticle* sim  = simptr.operator ->();
@@ -1873,26 +1874,26 @@ void TAnaDump::printStepPointMC(const mu2e::StepPointMC* Step, const char* Detec
     }
 
     double doca = -9999.;
-    if ((strcmp(Detector,"tracker") == 0) && tracker) {
-      const mu2e::Straw* straw = &tracker->getStraw(mu2e::StrawId(Step->volumeId()));
+    // if ((strcmp(Detector,"tracker") == 0) && tracker) {
+    //   const mu2e::Straw* straw = &tracker->getStraw(mu2e::StrawId(Step->volumeId()));
 
-      const CLHEP::Hep3Vector* v1 = &straw->getMidPoint();
-      HepPoint p1(v1->x(),v1->y(),v1->z());
+    //   const CLHEP::Hep3Vector* v1 = &straw->getMidPoint();
+    //   HepPoint p1(v1->x(),v1->y(),v1->z());
 
-      const CLHEP::Hep3Vector* v2 = &Step->position();
-      HepPoint    p2(v2->x(),v2->y(),v2->z());
+    //   const CLHEP::Hep3Vector* v2 = &Step->position();
+    //   HepPoint    p2(v2->x(),v2->y(),v2->z());
 
-      TrkLineTraj trstraw(p1,straw->getDirection()  ,0.,0.);
-      TrkLineTraj trstep (p2,Step->momentum().unit(),0.,0.);
+    //   TrkLineTraj trstraw(p1,straw->getDirection()  ,0.,0.);
+    //   TrkLineTraj trstep (p2,Step->momentum().unit(),0.,0.);
 
-    // 2015-02-16 G. Pezzu and Murat change in the print out to be finished
-    // 2015-02-25 P.Murat: fix sign - trajectory is the first !
-    //  however, the sign of the disptance of closest approach is invariant
-    // wrt the order
-      TrkPoca poca(trstep, 0., trstraw, 0.);
+    // // 2015-02-16 G. Pezzu and Murat change in the print out to be finished
+    // // 2015-02-25 P.Murat: fix sign - trajectory is the first !
+    // //  however, the sign of the disptance of closest approach is invariant
+    // // wrt the order
+    //   TrkPoca poca(trstep, 0., trstraw, 0.);
     
-      doca = poca.doca();
-    }
+    //   doca = poca.doca();
+    // }
     
     //    art::Ptr<mu2e::GenParticle> const& apgen = sim->genParticle();
     //    mu2e::GenParticle* gen = (mu2e::GenParticle*) &(*sim->genParticle());

@@ -60,12 +60,13 @@
 #include "Offline/RecoDataProducts/inc/AlgorithmID.hh"
 
 					          // BaBar
-#include "BTrk/ProbTools/ChisqConsistency.hh"
-#include "BTrk/BbrGeom/BbrVectorErr.hh"
-#include "BTrk/BbrGeom/HepPoint.h"
-#include "BTrk/BbrGeom/TrkLineTraj.hh"
-#include "BTrk/TrkBase/TrkPoca.hh"
-#include "BTrk/KalmanTrack/KalHit.hh"
+// #include "BTrk/ProbTools/ChisqConsistency.hh"
+// #include "BTrk/BbrGeom/BbrVectorErr.hh"
+// #include "BTrk/BbrGeom/HepPoint.h"
+// #include "BTrk/BbrGeom/TrkLineTraj.hh"
+// #include "BTrk/TrkBase/TrkPoca.hh"
+// #include "BTrk/KalmanTrack/KalHit.hh"
+#include "Stntuple/gui/HepPoint.hh"
 
 #include "Stntuple/mod/InitTrackBlock.hh"
 // #include "Stntuple/mod/THistModule.hh"
@@ -412,25 +413,25 @@ void StntupleInitTrackBlock::SetHitInfo(TStnTrack* track,
       //-----------------------------------------------------------------------------
         if (stgs) {
           if(verbose > 5) printf(" --> MC gas step found\n");
-          if (hit->driftRadius() > 0.2) {
-            const CLHEP::Hep3Vector* v1 = &straw->getMidPoint();
-            HepPoint p1(v1->x(),v1->y(),v1->z());
+        //   if (hit->driftRadius() > 0.2) {
+        //     const CLHEP::Hep3Vector* v1 = &straw->getMidPoint();
+        //     HepPoint p1(v1->x(),v1->y(),v1->z());
 
-            CLHEP::Hep3Vector v2 = stgs->position();
-            HepPoint    p2(v2.x(),v2.y(),v2.z());
+        //     CLHEP::Hep3Vector v2 = stgs->position();
+        //     HepPoint    p2(v2.x(),v2.y(),v2.z());
 
-            TrkLineTraj trstraw(p1,straw->getDirection()  ,0.,0.);
+        //     TrkLineTraj trstraw(p1,straw->getDirection()  ,0.,0.);
 
-            TrkLineTraj trstep (p2,stgs->momvec().unit(),0.,0.);
+        //     TrkLineTraj trstep (p2,stgs->momvec().unit(),0.,0.);
 
-            TrkPoca poca(trstep, 0., trstraw, 0.);
+        //     TrkPoca poca(trstep, 0., trstraw, 0.);
 
-            const float mcdoca = poca.doca();
-        //-----------------------------------------------------------------------------
-        // if mcdoca and hit->_iamb have different signs, the hit drift direction has wrong sign
-        //-----------------------------------------------------------------------------
-            if (hit->ambig()*mcdoca < 0) nwrong += 1;
-          }
+        //     const float mcdoca = poca.doca();
+        // //-----------------------------------------------------------------------------
+        // // if mcdoca and hit->_iamb have different signs, the hit drift direction has wrong sign
+        // //-----------------------------------------------------------------------------
+        //     if (hit->ambig()*mcdoca < 0) nwrong += 1;
+        //   }
         }
       }
 

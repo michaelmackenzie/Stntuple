@@ -22,7 +22,7 @@
 #include "Offline/GeometryService/inc/GeomHandle.hh"
 #include "Offline/TrackerGeom/inc/Tracker.hh"
 
-#include "BTrk/BbrGeom/HepPoint.h"
+#include "Stntuple/gui/HepPoint.hh"
 
 namespace stntuple {
 //-----------------------------------------------------------------------------

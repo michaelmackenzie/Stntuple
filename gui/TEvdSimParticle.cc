@@ -33,7 +33,7 @@
 
 // #include "BTrk/KalmanTrack/KalRep.hh"
                                         // probably will go away 
-#include "BTrk/BbrGeom/HepPoint.h"
+// #include "BTrk/BbrGeom/HepPoint.h"
 // #include "BTrk/TrkBase/HelixParams.hh"
 // #include "BTrk/TrkBase/HelixTraj.hh"
 
@@ -56,7 +56,7 @@
 
 #include "CLHEP/Vector/ThreeVector.h"
 #include "CLHEP/Geometry/Point3D.h"
-#include "BTrk/BbrGeom/HepPoint.h"
+#include "Stntuple/gui/HepPoint.hh"
 // typedef HepGeom::Point3D<double> HepPoint;
 
 ClassImp(stntuple::TEvdSimParticle)
