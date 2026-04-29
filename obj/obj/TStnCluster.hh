@@ -163,8 +163,14 @@ public:
   float   CrystalT    (const int index) const {
     return (index >= 0 && index < NCrystals()) ? fCrystalTimes[index] : 0.f;
   }
-  int   CrystalID   (const int index) const {
+  int   CrystalID     (const int index) const {
     return (index >= 0 && index < NCrystals()) ? fCrystalIDs[index] : 0;
+  }
+  float   CrystalX    (const int index) const {
+    return (index >= 0 && index < NCrystals()) ? fCrystalXs[index] : 0.f;
+  }
+  float   CrystalY    (const int index) const {
+    return (index >= 0 && index < NCrystals()) ? fCrystalYs[index] : 0.f;
   }
 
   // linked track

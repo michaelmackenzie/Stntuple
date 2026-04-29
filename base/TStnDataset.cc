@@ -175,7 +175,15 @@ Int_t TStnDataset::AddFile(const char* Name) {
   if (! found) {
 					// create new piece of metadata
     TFile* f    = TFile::Open(Name);
+    if(!f || f->IsZombie()) {
+      Error("AddFile(name)", "Input file %s cannot be opened", Name);
+      return -1;
+    }
     TTree* tree = (TTree*) f->Get("STNTUPLE");
+    if(!tree) {
+      Error("AddFile(name)", "Tree in Input file %s was not found", Name);
+      return -1;
+    }
     nev         = int(tree->GetEntries());
     fNEvents   += nev;
 

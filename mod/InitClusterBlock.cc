@@ -245,6 +245,8 @@ int  StntupleInitMu2eClusterBlock(TStnDataBlock* Block, AbsEvent* Evt, int Mode)
       cluster->fCrystalIDs     [ih] = id;
       cluster->fCrystalXs      [ih] = pos->x();
       cluster->fCrystalYs      [ih] = pos->y();
+      if(verbose > 1) printf("  Crystal %2i: E = %5.1f T = %6.1f ID = %3i X = %6.1f Y = %6.1f\n",
+                             ih, e, hit->time(), id, pos->x(), pos->y());
 
       if (e > kMinECrystal) {
         ++qn;
