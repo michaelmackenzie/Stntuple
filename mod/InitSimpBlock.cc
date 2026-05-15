@@ -185,7 +185,7 @@ int StntupleInitSimpBlock::InitDataBlock(TStnDataBlock* Block, AbsEvent* AnEvent
   art::Handle<mu2e::PrimaryParticle> pp_handle;
   const mu2e::PrimaryParticle*       pp(nullptr);
   const mu2e::SimParticle*           primary(nullptr);
-  const int verbose(10);
+  const int verbose(0);
 
   if (! fPrimaryParticleTag.empty()) {
     AnEvent->getByLabel(fPrimaryParticleTag,pp_handle);

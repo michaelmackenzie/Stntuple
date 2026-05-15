@@ -44,13 +44,6 @@ int  StntupleInitMu2eClusterBlock(TStnDataBlock* Block, AbsEvent* Evt, int Mode)
 
   constexpr int verbose(0);
 
-  //  const char*               oname = {"MuratInitClusterBlock"};
-
-//   int                           station, ntrk;
-//   KalRep                        *krep;
-//  double                        h1_fltlen, hn_fltlen, entlen, fitmom_err;
-//   TStnTrack*                    track;
-//   const mu2e::StepPointMC*      step;
   const mu2e::CaloClusterCollection*  list_of_clusters = nullptr;
   const mu2e::CaloClusterMCCollection* list_of_mc_clusters = nullptr;
   const mu2e::CaloClusterMCTruthAssn* mc_assns = nullptr;
