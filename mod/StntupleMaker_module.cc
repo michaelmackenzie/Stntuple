@@ -647,16 +647,20 @@ void StntupleMaker::beginJob() {
   if (fMakeSimp) {
     fInitSimpBlock = new StntupleInitSimpBlock();
 
-    fInitSimpBlock->SetSimpCollTag       (fSimpCollTag       );
-    fInitSimpBlock->SetShCollTag         (fShCollTag         );
-    fInitSimpBlock->SetSdmcCollTag       (fSdmcCollTag       );
-    fInitSimpBlock->SetVDHitsCollTag     (fVdhCollTag        );
-    fInitSimpBlock->SetPrimaryParticleTag(fPrimaryParticleTag);
-    fInitSimpBlock->SetMinSimpMomentum   (fMinSimpMomentum   );
-    fInitSimpBlock->SetMaxZ              (fSimpMaxZ          );
-    fInitSimpBlock->SetGenProcessID      (fGenId.id()        );
-    fInitSimpBlock->SetPdgID             (fPdgId             );
-    fInitSimpBlock->SetMinNStrawHits     (fMinNStrawHits     );
+    fInitSimpBlock->SetSimpCollTag          (fSimpCollTag       );
+    fInitSimpBlock->SetShCollTag            (fShCollTag         );
+    fInitSimpBlock->SetSdmcCollTag          (fSdmcCollTag       );
+    fInitSimpBlock->SetVDHitsCollTag        (fVdhCollTag        );
+    fInitSimpBlock->SetPrimaryParticleTag   (fPrimaryParticleTag);
+    fInitSimpBlock->SetMinSimpMomentum      (fMinSimpMomentum   );
+    fInitSimpBlock->SetMaxZ                 (fSimpMaxZ          );
+    fInitSimpBlock->SetGenProcessID         (fGenId.id()        );
+    fInitSimpBlock->SetPdgID                (fPdgId             );
+    fInitSimpBlock->SetMinNStrawHits        (fMinNStrawHits     );
+    if (! fCaloClusterMCMaker.empty()) {
+      art::InputTag caloMCTag(fCaloClusterMCMaker);
+      fInitSimpBlock->SetCaloClusterMCCollTag(caloMCTag);
+    }
 
     AddDataBlock("SimpBlock","TSimpBlock",fInitSimpBlock,buffer_size,split_mode,compression_level);
   }

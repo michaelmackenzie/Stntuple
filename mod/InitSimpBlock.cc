@@ -4,6 +4,7 @@
 #include "TLorentzVector.h"
 #include "TDatabasePDG.h"
 #include "TParticlePDG.h"
+#include <set>
 #include <vector>
 
 #include "messagefacility/MessageLogger/MessageLogger.h"
@@ -21,6 +22,8 @@
 
 #include "Offline/DataProducts/inc/VirtualDetectorId.hh"
 
+#include "Offline/MCDataProducts/inc/CaloClusterMC.hh"
+#include "Offline/MCDataProducts/inc/CaloEDepMC.hh"
 #include "Offline/MCDataProducts/inc/GenParticle.hh"
 #include "Offline/MCDataProducts/inc/KalSeedMC.hh"
 #include "Offline/MCDataProducts/inc/SimParticle.hh"
@@ -182,7 +185,7 @@ int StntupleInitSimpBlock::InitDataBlock(TStnDataBlock* Block, AbsEvent* AnEvent
   art::Handle<mu2e::PrimaryParticle> pp_handle;
   const mu2e::PrimaryParticle*       pp(nullptr);
   const mu2e::SimParticle*           primary(nullptr);
-  const int verbose(0);
+  const int verbose(10);
 
   if (! fPrimaryParticleTag.empty()) {
     AnEvent->getByLabel(fPrimaryParticleTag,pp_handle);
@@ -212,6 +215,44 @@ int StntupleInitSimpBlock::InitDataBlock(TStnDataBlock* Block, AbsEvent* AnEvent
 
   // check if this is an RPC event
   const bool is_rpc = primary && (fGenProcessID == mu2e::ProcessCode::mu2eExternalRPC || fGenProcessID == mu2e::ProcessCode::mu2eInternalRPC);
+
+//-----------------------------------------------------------------------------
+// build a set of sim particle IDs that deposit at least 50 MeV in any calo cluster
+//-----------------------------------------------------------------------------
+  constexpr float kMinCaloEDep = 50.f; // MeV
+
+  std::set<int> simp_ids_with_calo_edep;
+
+  if (! fCaloClusterMCCollTag.empty()) {
+    art::Handle<mu2e::CaloClusterMCCollection> calo_mc_handle;
+    bool ok = AnEvent->getByLabel(fCaloClusterMCCollTag, calo_mc_handle);
+    if (ok && calo_mc_handle.isValid()) {
+      const mu2e::CaloClusterMCCollection* calo_mc_coll = calo_mc_handle.product();
+      for (const auto& mc_cl : *calo_mc_coll) {
+        // accumulate energy per sim particle across all hits in this cluster
+        std::map<int, float> sim_edep;
+        for (const auto& hit : mc_cl.caloHitMCs()) {
+          for (const auto& edep : hit->energyDeposits()) {
+            const auto sim_ptr = edep.sim();
+            if (sim_ptr) {
+              sim_edep[sim_ptr->id().asInt()] += edep.energyDep();
+            }
+          }
+        }
+        for (const auto& entry : sim_edep) {
+          if (entry.second >= kMinCaloEDep) {
+            if(verbose > 0) printf("InitSimpBlock::%s: Calo SIM ID = %4i deposits %6.1f MeV in cluster\n",
+                                   __func__, entry.first, entry.second);
+            simp_ids_with_calo_edep.insert(entry.first);
+          }
+        }
+      }
+    }
+    else {
+      mf::LogWarning(oname) << " WARNING line " << __LINE__ << ": no CaloClusterMCCollection tag="
+                            << fCaloClusterMCCollTag.encode().data() << " found";
+    }
+  }
 
   if (simp_handle.isValid()) {
     simp_coll = simp_handle.product();
@@ -297,6 +338,13 @@ int StntupleInitSimpBlock::InitDataBlock(TStnDataBlock* Block, AbsEvent* AnEvent
           }
           if(accepted) break;
         }
+      }
+
+      // Accept sim particles that deposit at least 50 MeV in a calorimeter cluster
+      if (!accepted && simp_ids_with_calo_edep.count(id)) {
+        if(verbose > 0) printf("InitSimpBlock::%s: Accepting SIM ID = %4i, PDG = %5i via calo cluster energy deposit\n",
+                               __func__, id, pdg_code);
+        accepted = true;
       }
 
       if(verbose > 1) printf("InitSimpBlock::%s: Checking SIM: ID = %4i, PDG = %5i, Code = %s --> accepted = %o\n",
