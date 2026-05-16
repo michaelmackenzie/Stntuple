@@ -42,7 +42,8 @@ class TStnCluster : public TObject {
 
     kNFreeFloats2  = 10 // more space for expansion added in V3
   };
-  enum { kMaxCrystals = 100 };
+public:
+  enum { kMaxCrystals = 200 };
 
 public:
 //-----------------------------------------------------------------------------
@@ -158,19 +159,19 @@ public:
 
   // sparse crystal info
   float   CrystalE    (const int index) const {
-    return (index >= 0 && index < NCrystals()) ? fCrystalEnergies[index] : 0.f;
+    return (index >= 0 && index < NCrystals() && index < kMaxCrystals) ? fCrystalEnergies[index] : 0.f;
   }
   float   CrystalT    (const int index) const {
-    return (index >= 0 && index < NCrystals()) ? fCrystalTimes[index] : 0.f;
+    return (index >= 0 && index < NCrystals() && index < kMaxCrystals) ? fCrystalTimes[index] : 0.f;
   }
   int   CrystalID     (const int index) const {
-    return (index >= 0 && index < NCrystals()) ? fCrystalIDs[index] : 0;
+    return (index >= 0 && index < NCrystals() && index < kMaxCrystals) ? fCrystalIDs[index] : 0;
   }
   float   CrystalX    (const int index) const {
-    return (index >= 0 && index < NCrystals()) ? fCrystalXs[index] : 0.f;
+    return (index >= 0 && index < NCrystals() && index < kMaxCrystals) ? fCrystalXs[index] : 0.f;
   }
   float   CrystalY    (const int index) const {
-    return (index >= 0 && index < NCrystals()) ? fCrystalYs[index] : 0.f;
+    return (index >= 0 && index < NCrystals() && index < kMaxCrystals) ? fCrystalYs[index] : 0.f;
   }
 
   // linked track

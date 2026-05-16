@@ -132,7 +132,7 @@ void TStnCluster::Streamer(TBuffer& R__b) {
       } else {
         R__b.ReadFastArray(&fE9,nwf2); // Extra float region added in V3
       }
-      const int ncr = NCrystals();
+      const int ncr = std::min(NCrystals(), (int) kMaxCrystals); // truncate if needed
       if(R__v < 4) { // sparse crystal info added in V4
         for(int index = 0; index < ncr; ++index) {
           fCrystalEnergies[index] = 0.f;
@@ -163,7 +163,7 @@ void TStnCluster::Streamer(TBuffer& R__b) {
     R__b.WriteFastArray(&fNumber,nwi );
     R__b.WriteFastArray(&fX     ,nwf );
     R__b.WriteFastArray(&fE9    ,nwf2);
-    const int ncr = NCrystals();
+    const int ncr = std::min(NCrystals(), (int) kMaxCrystals); // truncate if needed
     R__b.WriteFastArray(fCrystalEnergies,ncr);
     R__b.WriteFastArray(fCrystalTimes   ,ncr);
     R__b.WriteFastArray(fCrystalIDs     ,ncr);

@@ -233,13 +233,18 @@ int  StntupleInitMu2eClusterBlock(TStnDataBlock* Block, AbsEvent* Evt, int Mode)
       const mu2e::Crystal* cr = &cal->crystal(id);
       pos = &cr->localPosition();
 
-      cluster->fCrystalEnergies[ih] = e;
-      cluster->fCrystalTimes   [ih] = hit->time();
-      cluster->fCrystalIDs     [ih] = id;
-      cluster->fCrystalXs      [ih] = pos->x();
-      cluster->fCrystalYs      [ih] = pos->y();
-      if(verbose > 1) printf("  Crystal %2i: E = %5.1f T = %6.1f ID = %3i X = %6.1f Y = %6.1f\n",
-                             ih, e, hit->time(), id, pos->x(), pos->y());
+      if(ih < TStnCluster::kMaxCrystals) {
+        cluster->fCrystalEnergies[ih] = e;
+        cluster->fCrystalTimes   [ih] = hit->time();
+        cluster->fCrystalIDs     [ih] = id;
+        cluster->fCrystalXs      [ih] = pos->x();
+        cluster->fCrystalYs      [ih] = pos->y();
+        if(verbose > 1) printf("  Crystal %2i: E = %5.1f T = %6.1f ID = %3i X = %6.1f Y = %6.1f\n",
+                               ih, e, hit->time(), id, pos->x(), pos->y());
+      } else {
+        printf("[InitClusterBlock::%s] Too many crystals! Not adding  Crystal %2i: E = %5.1f T = %6.1f ID = %3i X = %6.1f Y = %6.1f\n",
+               __func__, ih, e, hit->time(), id, pos->x(), pos->y());
+      }
 
       if (e > kMinECrystal) {
         ++qn;
