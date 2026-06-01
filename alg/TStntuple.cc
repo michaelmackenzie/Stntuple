@@ -42,39 +42,41 @@ TStntuple::TStntuple() {
 // initialize the LO DIO spectrum
 //-----------------------------------------------------------------------------
   TTree tree("t1","t1");
-  double emin = 0.05;
-  double emax = 110.05;
-  int    nb   = 1100;
-  double bin  = 0.1;
+  double emin  = 0.;
+  double emax  = 110.;
+  double width = 0.1;
 
   TString table = "Offline/ConditionsService/data/czarnecki_Al.tbl";
   if(true) { //FIXME: Make this configurable
-    table = "Offline/ConditionsService/data/heeck_finer_binning_2016_szafron.tbl";
-    nb  = 11000; //finer binning in this table
-    bin = 0.01;
+    table = "Stntuple/data/heeck_finer_binning_2016_szafron.tbl";
+    width = 0.01;
   }
-  tree.ReadFile(table,"e/f:w/f");
+  const int nb = static_cast<int>((emax - emin) / width + 0.99);
+
+  tree.ReadFile(table,"e/D:w/D");
   int n = tree.GetEntries();
 
   fDioSpectrumHist = new TH1D("h_dio_spectrum","DIO spectrum",nb,emin,emax);
 
-  float e, w;
+  double e, w;
 
   tree.SetBranchAddress("e",&e);
   tree.SetBranchAddress("w",&w);
 
+  int bin_prev = -1; // for validating the table reading
   for (int i=0; i<n; i++) {
     tree.GetEntry(i);
 
-    int ibin = (e-emin)/bin+1;
-    // skip 0th bin written out (underflows)
-    if (ibin > 0) fDioSpectrumHist->SetBinContent(ibin,w);
+    const int bin = fDioSpectrumHist->GetXaxis()->FindBin(e + 1.e-4); // ensure bin edges round up
+    // skip underflows
+    if (bin > 0) fDioSpectrumHist->SetBinContent(bin,w);
 
-    //    printf(" %5i %10.3f %12.5e\n",ibin,e,w);
+    if(bin_prev >= 0 && bin != bin_prev + 1) printf(" %5i %10.3f %12.5e\n",bin,e,w);
+    bin_prev = bin;
   }
 
   // Normalize the input spectral shape to per DIO event
-  fDioSpectrumHist->Scale(1./(fDioSpectrumHist->Integral() * bin));
+  fDioSpectrumHist->Scale(1./(fDioSpectrumHist->Integral() * fDioSpectrumHist->GetBinWidth(1)));
 
   fDioSpectrum = new smooth(&(*fDioSpectrumHist));
 
@@ -86,7 +88,7 @@ TStntuple::~TStntuple() {
 }
 
 //_____________________________________________________________________________
-TStntuple*  TStntuple::Instance() { 
+TStntuple*  TStntuple::Instance() {
   static Cleaner cleaner;
   return (fgInstance) ? fgInstance : (fgInstance = new TStntuple());
 }
@@ -129,8 +131,8 @@ Int_t TStntuple::Init(Int_t RunNumber) {
 // parameterization of the DIO spectrum on Al
 // from Czarnecki et al, Phys.Rev.D84:013006,2011 (http://www.arxiv.org/abs/1106.4756)
 // function is normalized to the unit integral,
-// full histogram from ConditionsService, so the histogram used has to 
-// be divided by the number of events and, then, scaled to the expected number 
+// full histogram from ConditionsService, so the histogram used has to
+// be divided by the number of events and, then, scaled to the expected number
 // of protons on target
 //-----------------------------------------------------------------------------
 double TStntuple::DioWeightAlFull(double E) {
@@ -148,15 +150,15 @@ double TStntuple::DioWeightAlFull(double E) {
 //-----------------------------------------------------------------------------
 // parameterization of the DIO spectrum on Al
 // from Czarnecki et al, Phys.Rev.D84:013006,2011 (http://www.arxiv.org/abs/1106.4756)
-// function is normalized to the unit integral, so the histogram used has to 
-// be divided by the number of events and, then, scaled to the expected number 
+// function is normalized to the unit integral, so the histogram used has to
+// be divided by the number of events and, then, scaled to the expected number
 // of protons on target
 //-----------------------------------------------------------------------------
 double TStntuple::DioWeightAl(double E) {
 
   double a5(8.6434), a6(1.16874), a7(-1.87828e-2), a8(9.16327e-3);
   double emu(105.194), mAl(25133.);
-  
+
   double de, de5, w;
 
   de  = emu-E-E*E/(2*mAl);
@@ -171,14 +173,14 @@ double TStntuple::DioWeightAl(double E) {
 }
 
 //-----------------------------------------------------------------------------
-// parameterization of the LO DIO spectrum on Al 
+// parameterization of the LO DIO spectrum on Al
 // from mu2e-6309 (by R.Szafron)
 //-----------------------------------------------------------------------------
 double TStntuple::DioWeightAl_LO(double E) {
 
   double a5(8.99879), a6(1.17169), a7(-1.06599e-2), a8(8.14251e-3);
   double emu(105.194), mAl(25133.);
-  
+
   double de, de5, w;
 
   de  = emu-E-E*E/(2*mAl);
@@ -193,7 +195,7 @@ double TStntuple::DioWeightAl_LO(double E) {
 }
 
 //-----------------------------------------------------------------------------
-// parameterization of the DIO spectrum on Al with LL radiative corrections 
+// parameterization of the DIO spectrum on Al with LL radiative corrections
 // from mu2e-6309 (by R.Szafron)
 // 'emu' - energy of the muon bound in Al nucleus, not the muon mass
 //-----------------------------------------------------------------------------
@@ -202,7 +204,7 @@ double TStntuple::DioWeightAl_LL(double E) {
   double a5(8.9), a6(1.17169), a7(-1.06599e-2), a8(8.14251e-3);
   double emu(105.194), mAl(25133.), mmu(105.658), me(0.511);
   double alpha(1./137.036) ;  // alpha EM
-  
+
   double de, de5, w;
 
   de  = emu-E-E*E/(2*mAl);
@@ -227,7 +229,7 @@ double TStntuple::MichelWeight(double E) {
   double mmu(105.658), me(0.511),   Emax=52.8302;
   double alpha(1./137.036) ;  // alpha EM
   double x; x=E/Emax;
-  double F, h, L; 
+  double F, h, L;
   double PI = 3.14159265359;
   double dw;
 
@@ -239,12 +241,12 @@ double TStntuple::MichelWeight(double E) {
   dw=dw/0.49791;
   if(dw<=0||x>=0.999999999)
     dw=0;
- 
+
   return dw;
 }
 
 //-----------------------------------------------------------------------------
-// 
+//
 double TStntuple::DioWeightTi(double E) {
   printf(">>> ERROR: TStntuple::DioWeightTi not implemented yet\n");
   return -1;
@@ -312,12 +314,12 @@ double TStntuple::RMC_PlestidIntegral(double K_1, double K_2, double KMax, int k
 }
 
 //-----------------------------------------------------------------------------
-// RPC photon weight 
+// RPC photon weight
 // normalization: integral(weight,0,eMax) = eMax, such that the distribution
-// on N events sampled uniformly from 0 to eMax with the given weight has an 
+// on N events sampled uniformly from 0 to eMax with the given weight has an
 // integral of N
-// unlike the RMC closure approximation spectrum, this is simply a parameterization 
-// of the experimental data (Bistirlich et al), hence only one parameter 
+// unlike the RMC closure approximation spectrum, this is simply a parameterization
+// of the experimental data (Bistirlich et al), hence only one parameter
 //-----------------------------------------------------------------------------
 double TStntuple::RPC_PhotonEnergyWeight(double E) {
 

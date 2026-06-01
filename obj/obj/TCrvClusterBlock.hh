@@ -32,7 +32,7 @@ public:
   TClonesArray*           GetListOfPulses () { return fListOfPulses; }
 
   Int_t                   NClusters        () { return fNClusters; }
-  TCrvCoincidenceCluster* Cluster     (int i) { return (TCrvCoincidenceCluster*) fListOfClusters->UncheckedAt(i); }
+  TCrvCoincidenceCluster* Cluster     (int i) { return (i < fListOfClusters->GetEntriesFast()) ? (TCrvCoincidenceCluster*) fListOfClusters->UncheckedAt(i) : nullptr; }
   TClonesArray*           GetListOfClusters() { return fListOfClusters; }
 
 
