@@ -40,7 +40,7 @@ public :
   enum {kSpectrumVar = 10};
   float var_[kSpectrumVar]; //spectrum variables, if needed
   //external spectra
-  enum {kClosure, kFlat, kModifiedClosure, kClosureFlat, kDeltaLine, kTwoClosures};
+  enum {kClosure, kFlat, kModifiedClosure, kClosureFlat, kDeltaLine, kTwoClosures, kPlestid};
 public :
   RMCSpectra() : kmax_cl_(90.1), kmax_kn_(101.866),
                  external_version_(kClosure), internal_(0),

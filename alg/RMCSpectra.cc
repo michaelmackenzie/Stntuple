@@ -1,4 +1,5 @@
 #include "Stntuple/alg/RMCSpectra.hh"
+#include "Stntuple/alg/TStntuple.hh"
 
 //Evaluate the spectrum for a given photon/daughter energy
 double RMCSpectra::Weight(double energy) {
@@ -50,6 +51,30 @@ void RMCSpectra::InitializeSpectrum() {
     float k_two = var_[0];
     float br_two = var_[1];
     fSpectrum_->SetParameters(kmax_cl_, k_two, br_two);
+  } else if(external_version_ == kPlestid) {
+    constexpr double br_0n_ref     = 0.099; // defined for E_photon > 57 MeV
+    constexpr double br_1n_ref     = 0.901;
+    constexpr double kmax_0n       = 101.866;
+    constexpr double kmax_1n       =  95.449;
+    constexpr double br_ref_energy = 57.; // Get the branching fractions for the full space
+    const     double r_0n_full     = (br_0n_ref <= 0.) ? 0. : br_0n_ref / TStntuple::RMC_PlestidIntegral(br_ref_energy, kmax_0n, kmax_0n, 0);
+    const     double r_1n_full     = (br_1n_ref <= 0.) ? 0. : br_1n_ref / TStntuple::RMC_PlestidIntegral(br_ref_energy, kmax_1n, kmax_1n, 1);
+
+    // Set to normalized above 57 MeV
+    double integral = 0.;
+    integral += r_0n_full * TStntuple::RMC_PlestidIntegral(br_ref_energy, kmax_0n, kmax_0n, 0);
+    integral += r_1n_full * TStntuple::RMC_PlestidIntegral(br_ref_energy, kmax_1n, kmax_1n, 1);
+    const     double br_0n         = r_0n_full / integral;
+    const     double br_1n         = r_1n_full / integral;
+
+    // Define the two endpoint function
+    TString function =    "(x < [0]) * [1] * [2] * (x/[0] * (max(0., 1 - x/[0]))^[3])"; // 0 knockout
+    function        += " + (x < [4]) * [5] * [6] * (x/[4] * (max(0., 1 - x/[4]))^[7])"; // 1 knockout
+    fSpectrum_ = new TF1("plestid", function.Data(), 0., kmax_0n);
+    const double power_0 = 2.;
+    const double power_1 = 3.5;
+    fSpectrum_->SetParameters(kmax_0n, br_0n, (power_0 + 1.) * (power_0 + 2.) / kmax_0n, power_0,
+                              kmax_1n, br_1n, (power_1 + 1.) * (power_1 + 2.) / kmax_1n, power_1);
   } else {
     std::cout << "UNKNOWN External RMC Version " << external_version_ << "! Exiting...\n";
     return;
