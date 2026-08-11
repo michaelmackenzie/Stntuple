@@ -91,9 +91,6 @@ int TEvdHelixVisNode::InitEvent() {
   }
 
 
-  // Tracker calibration object.
-  //  mu2e::ConditionsHandle<mu2e::StrawResponse> srep = mu2e::ConditionsHandle<mu2e::StrawResponse>("ignored");
-
   //  const mu2e::ComboHit              *hit;
   // stntuple::TEvdStrawHit            *evd_straw_hit; 
   // const CLHEP::Hep3Vector           *w; 

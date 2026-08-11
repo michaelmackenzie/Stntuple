@@ -2,3 +2,11 @@
 #------------------------------------------------------------------------------
 #include "Stntuple/fcl/stntuple_prologs.fcl"
 #include "Stntuple/fcl/stntuple_templates.fcl"
+#------------------------------------------------------------------------------
+# if a user analysis package is present, replace stntuple.fcl
+# following the template below
+#------------------------------------------------------------------------------
+# \\                 #include "Stntuple/fcl/stntuple_prologs.fcl"
+# \\                 #include "pbar2m/fcl/prolog.fcl"
+# \\                 #include "Stntuple/fcl/stntuple_templates.fcl"
+#------------------------------------------------------------------------------

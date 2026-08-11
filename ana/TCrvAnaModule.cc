@@ -431,7 +431,7 @@ int TCrvAnaModule::Event(int ientry) {
   fNCrvClusters  = fCrvClusterBlock->NClusters();
 
   fNCrvPulses       = fCrvPulseBlock->NPulses();
-  fNCrvCoincidences = fCrvPulseBlock->NCoincidences();
+  fNCrvCoincidences = 0; // no more coincidences ... fCrvPulseBlock->NCoincidences();
 
   TGenParticle* genp;
   int           pdg_code, process_code;

@@ -27,9 +27,6 @@
 
 #include "Offline/RecoDataProducts/inc/HelixSeed.hh"
 
-// #include "BTrk/TrkBase/HelixParams.hh"
-// #include "BTrk/TrkBase/HelixTraj.hh"
-
 #include "Offline/GeometryService/inc/GeometryService.hh"
 #include "Offline/GeometryService/inc/GeomHandle.hh"
 

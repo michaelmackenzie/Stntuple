@@ -6,6 +6,8 @@
 #pragma link C++ nestedclasses;
 #pragma link C++ nestedtypedefs;
 
+#pragma link C++  class  TCalDigiBlock-;
+#pragma link C++  class  TCalDigi-;
 #pragma link C++  class  TCalDataBlock-;
 #pragma link C++  class  TCalHitData-;
 #pragma link C++  class  TCrvClusterBlock-;
@@ -45,9 +47,11 @@
 #pragma link C++  class  TStnTriggerBlock-;
 #pragma link C++  class  TStnTrigger-;
 #pragma link C++  class  TStnTriggerTable;
-#pragma link C++  class  TStrawHitBlock-;
+#pragma link C++  class  TStrawDigi-;
+#pragma link C++  class  TStrawDigiBlock-;
 #pragma link C++  class  TStrawHit-;
 #pragma link C++  class  TStrWaveform-;
+#pragma link C++  class  TStrawHitBlock-;
 #pragma link C++  class  TTrackStrawHitBlock-;
 #pragma link C++  class  TTrackStrawHit-;
 #pragma link C++  class  TVDetDataBlock-;

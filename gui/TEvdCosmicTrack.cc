@@ -29,8 +29,6 @@
 #include "art/Framework/Principal/Handle.h"
 
 
-// #include "BTrk/TrkBase/HelixParams.hh"
-// #include "BTrk/TrkBase/HelixTraj.hh"
 
 #include "Offline/RecoDataProducts/inc/CosmicTrackSeed.hh"
 
@@ -171,29 +169,29 @@ void TEvdCosmicTrack::PaintVST(Option_t* Option) {
 //-----------------------------------------------------------------------------
 void TEvdCosmicTrack::PaintVRZ(Option_t* Option) {
 
-  TStnVisManager* vm = TStnVisManager::Instance();
-  TGeoCombiTrans* gt = vm->GetCurrentView()->GetCombiTrans();
+  //TStnVisManager* vm = TStnVisManager::Instance();
+  //  TGeoCombiTrans* gt = vm->GetCurrentView()->GetCombiTrans();
     
-  double posm[3], posl[3], dirm[3], dirl[3];
-  posm[0] = fCTSeed->_track.FitParams.A0;
-  posm[1] = 0.;
-  posm[2] = fCTSeed->_track.FitParams.B0;
-  gt->MasterToLocalVect(posm, posl);
+  // double posm[3], posl[3], dirm[3], dirl[3];
+  // posm[0] = fCTSeed->_track.FitParams.A0;
+  // posm[1] = 0.;
+  // posm[2] = fCTSeed->_track.FitParams.B0;
+  // gt->MasterToLocalVect(posm, posl);
   
-  dirm[0] = fCTSeed->_track.FitParams.A1;
-  dirm[1] = -1.;
-  dirm[2] = fCTSeed->_track.FitParams.B1;
-  gt->MasterToLocalVect(dirm, dirl);
+  // dirm[0] = fCTSeed->_track.FitParams.A1;
+  // dirm[1] = -1.;
+  // dirm[2] = fCTSeed->_track.FitParams.B1;
+  // gt->MasterToLocalVect(dirm, dirl);
  
-  double y1(-1000.), y2(1000.);
+  // double y1(-1000.), y2(1000.);
 
-  double dydz_l = dirl[1]/dirl[2];
-  double z1 = (y1-posl[1])/dydz_l + posl[2];
-  double z2 = (y2-posl[1])/dydz_l + posl[2];
+  // double dydz_l = dirl[1]/dirl[2];
+  // double z1 = (y1-posl[1])/dydz_l + posl[2];
+  // double z2 = (y2-posl[1])/dydz_l + posl[2];
   
-  TLine ln;
-  ln.SetLineColor(kBlue+1);
-  ln.PaintLine(z1,y1,z2,y2);
+  // TLine ln;
+  // ln.SetLineColor(kBlue+1);
+  // ln.PaintLine(z1,y1,z2,y2);
 }
 
 //-----------------------------------------------------------------------------

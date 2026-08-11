@@ -65,7 +65,7 @@ mu2e.HistDir                   /grid/fermiapp/mu2e/users/murat/hist/mu2e
 mu2e.TrkQual.HistDir           /grid/fermiapp/mu2e/users/murat/hist/mu2e/v5_7_0
 mu2e.TrkQual.Dsid              e11s5731
 #------------------------------------------------------------------------------
-# MU2E: 2. version of PID templates - in ConditionsService/data
+# MU2E: 2. version of PID templates - in ParticleID/data
 #------------------------------------------------------------------------------
 mu2e.PidVersion                v5_7_9
 mu2e.GdmlGeometry              /projects/murat/figures/mu2e/gdml/mu2e_geometry_v6_0_0.gdml

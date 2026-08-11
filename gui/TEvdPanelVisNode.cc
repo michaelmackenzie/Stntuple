@@ -7,6 +7,7 @@
 #include "Stntuple/gui/TEvdPanelVisNode.hh"
 #include "Stntuple/gui/TStnVisManager.hh"
 
+#include "Stntuple/gui/TEvdStraw.hh"
 #include "Stntuple/gui/TEvdPanel.hh"
 
 // #include "trkvst/ana/TEvdPanelData.hh"
@@ -126,7 +127,20 @@ int  TEvdPanelVisNode::DistancetoPrimitiveVRZ(Int_t px, Int_t py) {
   // by default, return a large number
   // decide how to deal with 3D views later
 
-  int  min_dist(9999);
+  int      min_dist(9999);
+  TObject* closest(nullptr);
+
+  int nstraws = fPanel->NStraws();
+  for (int is=0; is<nstraws; is++) {
+    TEvdStraw* straw  = fPanel->Straw(is);
+    int dist = straw->DistancetoPrimitiveVRZ(px,py);
+    if (dist < min_dist) {
+      min_dist = dist;
+      closest = straw;
+    }
+  }
+
+  SetClosestObject(closest,min_dist);
   return min_dist;
 }
 

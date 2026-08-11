@@ -57,8 +57,10 @@ TStnVisManager::TStnVisManager(const char* Name, const char* Title): TVisManager
   fMinStation          =  0;
   fMaxStation          = 50;
 					// by default, no timing constraints
-  fTMin                = 0;
-  fTMax                = 1.e5;
+  fTMin                = -1.e6;
+  fTMax                =  1.e6;
+  fMinEDep             = -1.e6;
+  fMaxEDep             =  1.e6;
   fEvent               = nullptr;
 
   fSelectedTimeCluster = nullptr;

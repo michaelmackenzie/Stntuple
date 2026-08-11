@@ -42,7 +42,7 @@ public:
 //-----------------------------------------------------------------------------
 // full DIO spectrum on Al from 
 // Czarnecki et al, Phys.Rev.D84:013006,2011 (http://www.arxiv.org/abs/1106.4756)
-// interpolation of a histogram tabulated in ConditionsService/data/czarnecki_Al.tbl
+// interpolation of a histogram tabulated in EventGenerator/data/czarnecki_Al.tbl
 // more details in mu2e-3281
 //-----------------------------------------------------------------------------
   double DioWeightAlFull(double P);

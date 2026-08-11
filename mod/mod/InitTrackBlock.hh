@@ -20,7 +20,6 @@
 #include "Offline/RecoDataProducts/inc/KalSeed.hh"
 #include "Offline/RecoDataProducts/inc/HelixSeed.hh"
 #include "Offline/RecoDataProducts/inc/KalSeedAssns.hh"
-// #include "Offline/RecoDataProducts/inc/TrkCaloIntersect.hh"
 #include "Offline/RecoDataProducts/inc/MVAResult.hh"
 #include "Offline/RecoDataProducts/inc/PIDProduct.hh"
 #include "Offline/RecoDataProducts/inc/TrkStraw.hh"
@@ -75,7 +74,6 @@ public:
   const mu2e::MVAResultCollection*         list_of_trk_qual           ;
   const mu2e::StrawDigiMCCollection*       list_of_mc_straw_hits      ;
   const mu2e::ComboHitCollection*          fSschColl                  ;
-  // const mu2e::TrkCaloIntersectCollection*  list_of_extrapolated_tracks;
   const mu2e::PIDProductCollection*        list_of_pidp               ;
 
   const mu2e::Tracker*                     tracker;

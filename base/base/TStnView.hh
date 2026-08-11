@@ -8,7 +8,6 @@
 #include "TNamed.h"
 #include "TObjArray.h"
 #include "TGaxis.h"
-#include "TGeoMatrix.h"
 #include "TVector3.h"
 
 #include "Stntuple/base/TVisNode.hh"
@@ -20,8 +19,6 @@ protected:
   void*               fMother;          // non-null. if in the local ref system of some object
 
   static int          fgDebugLevel;
-  
-  TGeoCombiTrans*     fCombiTrans;      // rotate, then translate
   
   Int_t               fPx1;
   Int_t               fPy1;
@@ -58,9 +55,6 @@ public:
 //-----------------------------------------------------------------------------
   int           Type () { return fType;  }
   int           Index() { return fIndex; }
-  void          CloneCombiTrans(const TGeoCombiTrans* T);
-  
-  TGeoCombiTrans* GetCombiTrans() { return fCombiTrans; }
 
   void*         GetMother()      { return fMother; }
   int           GetNNodes()      { return fListOfNodes->GetEntriesFast(); }

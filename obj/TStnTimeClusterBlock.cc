@@ -27,7 +27,8 @@ void TStnTimeClusterBlock::Streamer(TBuffer &R__b) {
 TStnTimeClusterBlock::TStnTimeClusterBlock() {
   fNTimeClusters      = 0;
   fListOfTimeClusters = new TClonesArray("TStnTimeCluster",100);
-  fListOfTimeClusters->BypassStreamer(kFALSE);
+  //  fListOfTimeClusters->BypassStreamer(kFALSE);
+  fListOfTimeClusters->BypassStreamer(kTRUE);
   fCollName  = "default";
 }
 

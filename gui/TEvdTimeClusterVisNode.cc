@@ -22,7 +22,6 @@
 
 #include "Offline/GeometryService/inc/GeometryService.hh"
 #include "Offline/GeometryService/inc/GeomHandle.hh"
-// #include "Offline/ConditionsService/inc/ConditionsHandle.hh"
 // #include "Offline/TrackerConditions/inc/StrawResponse.hh"
 
 #include "Offline/RecoDataProducts/inc/StrawHit.hh"

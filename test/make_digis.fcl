@@ -1,0 +1,77 @@
+# -*- mode:tcl -*-
+#------------------------------------------------------------------------------
+# p0 : ntupling only, assumes input being the reconstruction output
+# p1 : default reconstruction path
+# p2 : read and ntuple (use with RootInput to ntuple MDC'2018 files)
+# p3 : path to debug the TPR and CPR reconstruction paths separately
+# p4 : read, reconstruct, run event display : MuHitDisplayDeMHDar
+#------------------------------------------------------------------------------
+BEGIN_PROLOG
+  bgHitFiles                  : @nil
+  INPUT_MODULE @protect_ignore: RootInput
+  TRIGGER_PATH @protect_ignore: ""                  ## ntupling only
+  PROCESS_NAME @protect_ignore: Stnmaker
+END_PROLOG
+
+#include "Stntuple/fcl/stntuple.fcl"
+#------------------------------------------------------------------------------
+# services.DbService and services.ProditionsService
+#------------------------------------------------------------------------------
+#include "daqana/fcl/calibration_set_v101.fcl"
+
+process_name : @local::PROCESS_NAME
+
+physics : {
+   # producers  : { @table::stntuple.producers }
+    filters      : { ## @table::stntuple.filters   }
+        EventIDFilter : { module_type: EventIDFilter
+            idsToMatch: [
+                         "123680:1-69:*",
+                         "123680:70:1-693386", "123680:70:693388-100000000",     ## skip event: 693387:CaloHitFastMaker
+                         "123680:71-74:*",
+                         "123680:75:1-747808", "123680:75:747810-100000000",     ## 123680:75:747809: CaloHitFastMaker
+                         "123680:76-204:*",
+                         "123680:205:1-2040079","123680:205:2040081-100000000",
+                         "123680:206-869:*",
+                         "123680:870:1-8698085","123680:870:8698087-100000000",
+                         "123680:871-10000:*"
+                        ]
+        }
+    }
+    
+    analyzers  : { @table::stntuple.analyzers 
+	StntupleMaker: { @table::stntuple.analyzers.StntupleMaker
+#------------------------------------------------------------------------------
+# only cal hits
+#------------------------------------------------------------------------------
+            makeCalDigis     : 1
+            makeCalData      : 1
+	    makeClusters     : 0
+
+            makeStrawDigis   : 1
+            
+	    makeCrvClusters  : 0  # default: 1
+	    makePid          : 0
+	    makeSimp         : 0
+	    makeStepPointMC  : 0
+	    makeTracks       : 0
+	    makeTrigger      : 1
+	}
+    }
+    
+    @table::stntuple.paths
+
+    t0            : [ EventIDFilter ]
+    trigger_paths : [ t0 ]
+    
+    output        : [ ]                   # [defaultOutput]/[]
+
+    end_paths     : [ "p0" ] 
+ 
+}
+
+services.TFileService.fileName              : "nts._USER_.read_reco.xxx.000001.root"
+physics.analyzers.InitStntuple.histFileName : "nts._USER_.read_reco.xxx.000001.stn"
+# outputs.detectorOutput.fileName           : "sim._USER_.read_reco.xxx.000001.art"
+
+physics.analyzers.InitStntuple.SelectEvents: [ "t0" ]                      ## keep only events that passed p1 OR p2

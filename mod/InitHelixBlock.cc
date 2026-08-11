@@ -123,8 +123,8 @@ int  StntupleInitHelixBlock::InitDataBlock(TStnDataBlock* Block, AbsEvent* Evt, 
 
       helix->fClusterTime    = cluster->time();
       helix->fClusterEnergy  = cluster->energyDep();
-      CLHEP::Hep3Vector gpos = _calorimeter->geomUtil().diskToMu2e(cluster->diskID(),cluster->cog3Vector());
-      CLHEP::Hep3Vector tpos = _calorimeter->geomUtil().mu2eToTracker(gpos);
+      CLHEP::Hep3Vector gpos = _calorimeter->diskToMu2e(cluster->diskID(),cluster->cog3Vector());
+      CLHEP::Hep3Vector tpos = _calorimeter->mu2eToTracker(gpos);
       helix->fClusterX       = tpos.x();
       helix->fClusterY       = tpos.y();
       helix->fClusterZ       = tpos.z();

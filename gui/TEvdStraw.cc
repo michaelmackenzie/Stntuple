@@ -4,6 +4,8 @@
 // in 'XY' mode draw calorimeter clusters as circles with different colors 
 // in 'Cal' mode draw every detail...
 ///////////////////////////////////////////////////////////////////////////////
+#include <format>
+
 #include "TVirtualX.h"
 #include "TPad.h"
 #include "TStyle.h"
@@ -279,8 +281,27 @@ Int_t TEvdStraw::DistancetoPrimitiveVST(Int_t px, Int_t py) {
 }
 
 //_____________________________________________________________________________
-Int_t TEvdStraw::DistancetoPrimitiveVRZ(Int_t px, Int_t py) {
-  return 9999;
+Int_t TEvdStraw::DistancetoPrimitiveVRZ(Int_t Cx, Int_t Cy) {
+  TVector3 global;
+
+  // convert coordinates of the wire center to the local frame
+  const CLHEP::Hep3Vector& pos_ds = fStraw->getMidPoint  ();
+  CLHEP::Hep3Vector posl          = fPanel->GetMu2ePanel()->dsToPanel()*pos_ds;
+
+  double cx_l = gPad->PixeltoX(Cx);
+  double cy_l = gPad->PixeltoY(Cy);
+  double dx   = cx_l-posl.z();
+  double dy   = cy_l-posl.y();
+  double dist = sqrt(dx*dx+dy*dy);
+
+  int idist = abs(Cx-gPad->XtoPixel(cx_l+dist));
+  
+  if (dist < 2.5) {
+    Print();
+    std::cout << std::format("dist:{} idist:{}\n",dist,idist);
+  }
+  
+  return idist;
 }
 
 
@@ -291,7 +312,12 @@ void TEvdStraw::Clear(const char* Opt) {
 
 //-----------------------------------------------------------------------------
 void TEvdStraw::Print(const char* Opt) const {
-  printf("[TEvdStraw::Print] ID:%5i NHits: 2i\n",fNHits);
-}
+  const CLHEP::Hep3Vector& pos_ds = fStraw->getMidPoint  ();
+  CLHEP::Hep3Vector posl          = fPanel->GetMu2ePanel()->dsToPanel()*pos_ds;
 
+  std::cout << std::format(" plane:{} panel:{} straw:{} (wx,wy): ({:10.3f}{:10.3f}) nhits:{:2d}\n",
+                         fStraw->id().plane(),fStraw->id().panel(),fStraw->id().straw(),
+                           posl.z(),posl.y(),fListOfHits->GetEntriesFast());
+}
+  
 }

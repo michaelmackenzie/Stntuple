@@ -219,8 +219,8 @@ public:
   
   void printComboHitCollection (const char* StrawHitCollTag, 
 				const char* StrawDigiMCCollTag = "",  // "makeSD" or "compressDigiMCs"
-				double TMin = -1.e6,
-				double TMax =  1.e6);
+				double TMin = -1.e6, double TMax = 1.e6,
+                                double EMin = -1.e6, double EMax = 1.e6);
  
   void printCosmicTrackSeed    (const mu2e::CosmicTrackSeed* CTSeed    , 
 				const char* StrawHitCollTag            ,  // usually - "makeSH"

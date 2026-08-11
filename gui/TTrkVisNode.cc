@@ -27,7 +27,6 @@
 #include "Offline/GeometryService/inc/GeomHandle.hh"
 #include "Offline/TrackerGeom/inc/Tracker.hh"
 
-// #include "Offline/ConditionsService/inc/ConditionsHandle.hh"
 #include "Offline/TrackerConditions/inc/StrawResponse.hh"
 
 #include "Offline/DataProducts/inc/StrawId.hh"
@@ -126,9 +125,6 @@ int TTrkVisNode::InitEvent() {
 
   TStnVisManager* vm      = TStnVisManager::Instance();
   const art::Event* event = vm->Event();
-
-  // Tracker calibration object.
-  // mu2e::ConditionsHandle<mu2e::StrawResponse> srep = mu2e::ConditionsHandle<mu2e::StrawResponse>("ignored");
 
   const mu2e::ComboHit              *hit;
   stntuple::TEvdStrawHit            *evd_straw_hit;
@@ -913,11 +909,13 @@ void TTrkVisNode::PaintPhiZ(Option_t* Option) {
   mu2e::GeomHandle<mu2e::Tracker> ttHandle;
   const mu2e::Tracker* tracker = ttHandle.get();
 
-  double tmin   = vm->TMin();
-  double tmax   = vm->TMax();
+  double tmin    = vm->TMin();
+  double tmax    = vm->TMax();
+  float min_edep = vm->MinEDep();
+  float max_edep = vm->MaxEDep();
 
-  double phimin = -M_PI; // vm->TMin();
-  double phimax =  M_PI; // vm->TMax();
+  double phimin  = -M_PI; // vm->TMin();
+  double phimax  =  M_PI; // vm->TMax();
 
   stntuple::TEvdTimeCluster* etcl = vm->SelectedTimeCluster();
 
@@ -950,9 +948,10 @@ void TTrkVisNode::PaintPhiZ(Option_t* Option) {
       const mu2e::Straw* straw = &tracker->getStraw(sh->strawId()); // first straw hit
       int station = straw->id().getStation();
       double time = ch->correctedTime();
+      float  edep = ch->energyDep();
 
       if ((station >= vm->MinStation()) && (station <= vm->MaxStation())) {
-        if ((time >= tmin) && (time <= tmax)) {
+        if ((time >= tmin) and (time <= tmax) and (edep >= min_edep) and (edep < max_edep)) {
           float phi = ech->Pos()->Phi();
 
           if ((phi >= phimin) && (phi <= phimax)) {
@@ -1324,14 +1323,18 @@ void TTrkVisNode::Print(Option_t* Opt) const {
 void TTrkVisNode::NodePrint(const void* Object, const char* ClassName) {
   TString class_name(ClassName);
 
-  TAnaDump* ad = TAnaDump::Instance();
+  TAnaDump*       ad = TAnaDump::Instance();
+  TStnVisManager* vm = TStnVisManager::Instance();
 
   if (class_name == "ComboHit") {
 //-----------------------------------------------------------------------------
 // print a ComboHit or a collection of those
 //-----------------------------------------------------------------------------
-    if (Object) ad->printComboHit          ((const mu2e::ComboHit*) Object,nullptr);
-    else        ad->printComboHitCollection(fChCollTag.encode().data(),fSdmcCollTag.encode().data());
+    if (Object) ad->printComboHit((const mu2e::ComboHit*) Object,nullptr);
+    else        {
+      ad->printComboHitCollection(fChCollTag.encode().data(),fSdmcCollTag.encode().data(),
+                                  vm->TMin(),vm->TMax(),vm->MinEDep(),vm->MaxEDep());
+    }
   }
   else if (class_name == "CosmicTrackSeed") {
 //-----------------------------------------------------------------------------

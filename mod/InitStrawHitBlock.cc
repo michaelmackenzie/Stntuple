@@ -12,7 +12,6 @@
 #include "Offline/MCDataProducts/inc/StrawDigiMC.hh"
 #include "Offline/MCDataProducts/inc/StrawGasStep.hh"
 
-#include "Stntuple/gui/HepPoint.hh"
 
 #include <vector>
 
@@ -35,11 +34,7 @@ int InitStrawHitBlock::InitDataBlock(TStnDataBlock* Block, AbsEvent* Event, int 
   data->Clear();
 //-----------------------------------------------------------------------------
 // straw hit information
-// combo hits are needed for 
 //-----------------------------------------------------------------------------
-  // art::Handle<mu2e::ComboHitCollection>             chch;
-  // const mu2e::ComboHitCollection*                   chc (nullptr);
-
   art::Handle<mu2e::StrawHitCollection>             shch;
   const mu2e::StrawHitCollection*                   shc (nullptr);
 
@@ -169,20 +164,22 @@ int InitStrawHitBlock::InitDataBlock(TStnDataBlock* Block, AbsEvent* Event, int 
 	       pdg_id, mother_pdg_id, 
 	       sh->energyDep(), mc_mom);
     }
-
+//-----------------------------------------------------------------------------
+// straw digis and waveforms are produced by the same module
+//-----------------------------------------------------------------------------
     if (fWriteSdwf != 0) {
-      if (! fSdwfCollTag.empty() != 0) {
+      if (! fStrawDigiCollTag.empty() != 0) {
 
 	art::Handle<mu2e::StrawDigiADCWaveformCollection> sdwfch;
 	const mu2e::StrawDigiADCWaveformCollection*       sdwfc(nullptr);
 
-	bool ok = Event->getByLabel(fSdwfCollTag,sdwfch);
+	bool ok = Event->getByLabel(fStrawDigiCollTag,sdwfch);
 	if (ok) sdwfc = sdwfch.product();
 
 	if (sdwfc == nullptr) {
 	  mf::LogWarning(__func__) << " WARNING in InitStrawHitBlock::" << __func__ << ":" << __LINE__ 
 				   << ": StrawDigiADCWaveformCollection:" 
-				   << fSdwfCollTag.encode().data() << " NOT FOUND, rc = -2";
+				   << fStrawDigiCollTag.encode().data() << " NOT FOUND, rc = -2";
 	  return -2;
 	}
 

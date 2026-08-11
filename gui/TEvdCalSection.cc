@@ -49,13 +49,13 @@ TEvdCalSection::TEvdCalSection(const mu2e::Disk* Disk, int SectionID): TObject()
 
   if (geom->hasElement<mu2e::DiskCalorimeter>()) {
 
-    rmin = fDisk->geomInfo().innerEnvelopeR();
+    rmin = fDisk->diskInfo().innerEnvelopeR();
 
     fEllipse[0] = new TEllipse(0.,0.,rmin,rmin,0.,360.,0);
     fEllipse[0]->SetLineColor(kGreen);
     fEllipse[0]->SetFillStyle(0);
 
-    rmax = fDisk->geomInfo().outerEnvelopeR();
+    rmax = fDisk->diskInfo().outerEnvelopeR();
     
     fEllipse[1] = new TEllipse(0.,0.,rmax,rmax,0.,360.,0);
     fEllipse[1]->SetLineColor(kGreen);

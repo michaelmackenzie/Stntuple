@@ -202,7 +202,7 @@ void TEvdTrack::PaintVRZ(Option_t* Option) {
   dirl[1] = dir_l.y();
   dirl[2] = dir_l.z();
   
-  std::cout << "panel:" << panel->id().plane() << ":" << panel->id().panel() << " pos_l:" << pos_l << " dir_l:" << dir_l << std::endl;
+  //  std::cout << "panel:" << panel->id().plane() << ":" << panel->id().panel() << " pos_l:" << pos_l << " dir_l:" << dir_l << std::endl;
  
   double y1(200.), y2(-200.);           // in the local coordinate system
 
@@ -210,7 +210,7 @@ void TEvdTrack::PaintVRZ(Option_t* Option) {
   double z1     = (y1-pos_l[1])/dydz_l + pos_l[2];
   double z2     = (y2-pos_l[1])/dydz_l + pos_l[2];
 
-  std::cout << "y1,y2,z1,z2:" << std::setw(13) << y1 << std::setw(13) << y2 << std::setw(13) << z1 << std::setw(13) << z2 << std::endl;
+  // std::cout << "y1,y2,z1,z2:" << std::setw(13) << y1 << std::setw(13) << y2 << std::setw(13) << z1 << std::setw(13) << z2 << std::endl;
   TLine ln;
   ln.SetLineColor(kRed+1);
   ln.PaintLine(z1,y1,z2,y2);

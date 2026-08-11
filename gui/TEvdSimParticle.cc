@@ -27,16 +27,9 @@
 #include "TDatabasePDG.h"
 
 
-// #include "BTrk/KalmanTrack/KalRep.hh"
-
 // #include "art/Framework/Principal/Handle.h"
 
-// #include "BTrk/KalmanTrack/KalRep.hh"
                                         // probably will go away 
-// #include "BTrk/BbrGeom/HepPoint.h"
-// #include "BTrk/TrkBase/HelixParams.hh"
-// #include "BTrk/TrkBase/HelixTraj.hh"
-
 #include "Offline/GeometryService/inc/GeometryService.hh"
 #include "Offline/GeometryService/inc/GeomHandle.hh"
 
@@ -56,8 +49,6 @@
 
 #include "CLHEP/Vector/ThreeVector.h"
 #include "CLHEP/Geometry/Point3D.h"
-#include "Stntuple/gui/HepPoint.hh"
-// typedef HepGeom::Point3D<double> HepPoint;
 
 ClassImp(stntuple::TEvdSimParticle)
 
@@ -249,9 +240,9 @@ void TEvdSimParticle::PaintPhiZ(Option_t* Option) {
 void TEvdSimParticle::PaintRZ(Option_t* Option) {
 
   //  double            flen, zwire[2], ds, rdrift, zt[4], rt[4], zw, rw;
-  double            zwire[2], rdrift, zt[4], rt[4], zw, rw;
+  double            zwire[2], rdrift(0.), zt[4], rt[4], zw, rw;
   CLHEP::Hep3Vector tdir;
-  HepPoint          tpos;
+  // HepPoint          tpos;
   TPolyLine         pline;
   int               nplanes, /*npanels,*/ nl;
 

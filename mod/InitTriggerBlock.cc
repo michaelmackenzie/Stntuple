@@ -52,7 +52,7 @@ int StntupleInitTriggerBlock::InitDataBlock(TStnDataBlock* Block, AbsEvent* Even
     // block->fPaths.Init(nbits);
 
     for (int i=0; i<block->fNPaths; i++) {
-      const std::string& name = trn.getTrigPathNameByIndex(i);
+      const std::string& name = "" ; // FIXME trn.getTrigPathNameByIndex(i);
 
       if (trn.accepted(name)) {
         //-----------------------------------------------------------------------------
@@ -62,7 +62,7 @@ int StntupleInitTriggerBlock::InitDataBlock(TStnDataBlock* Block, AbsEvent* Even
 
         int trig_bit = -1;
         try {
-          trig_bit = trn.getTrigBitByName(name);
+          trig_bit = -1; // FIXME PM trn.getTrigBitByName(name);
         } catch (...) {}
         // ttbl->GetListOfTriggers(name.data(),&list);
         ttbl->GetListOfTriggers("",&list); // check against all triggers

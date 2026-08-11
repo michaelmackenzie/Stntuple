@@ -32,7 +32,7 @@ public:
   
 protected:
   int                fIndex;
-  int                fNHits;
+  //  int                fNHits;
   TObjArray*         fListOfHits;       // do we need it ? 
 
   TEvdPanel*         fPanel; 		// backward pointer
@@ -56,7 +56,7 @@ public:
 //-----------------------------------------------------------------------------
 // accessors
 //-----------------------------------------------------------------------------
-  int NHits() { return fNHits; }
+  int NHits() { return fListOfHits->GetEntriesFast(); }
 
   TEvdStrawHit*   Hit(int I) { 
     return (TEvdStrawHit*) fListOfHits->UncheckedAt(I); 

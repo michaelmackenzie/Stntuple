@@ -15,6 +15,7 @@
 //  initialization of the data block with the event data is done either using
 //  overloaded protected `fInit' function, or
 //_____________________________________________________________________________
+#include <regex>
 #include <iostream>
 
 #include "TClass.h"
@@ -25,6 +26,7 @@
 const Float_t TStnDataBlock::kUndefined = 1.e6;
 
 ClassImp(TStnDataBlock)
+
 //_____________________________________________________________________________
 TStnDataBlock::TStnDataBlock():
   fCollName("none")
@@ -213,7 +215,3 @@ void TStnDataBlock::Print(Option_t* option) const {
 	    << "Valid" << fValid<<std::endl;
 
 }
-
-
-
-

@@ -1,11 +1,9 @@
 ///////////////////////////////////////////////////////////////////////////////
-// A half-interactive 2D event display. 
 //
-// $Id: MuHitDisplay_module.cc,v 1.6 2014/09/20 17:54:06 murat Exp $
 // $Author: murat $
 // $Date: 2014/09/20 17:54:06 $
 //
-// Contact person:  Pavel Murat
+// Contact person:  PM
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -71,7 +69,7 @@ namespace mu2e {
 
 //-----------------------------------------------------------------------------
   StntupleEventDump::StntupleEventDump(fhicl::ParameterSet const& pset) :
-    TModule(pset, "StntupleEventDump")
+    TModule(pset,pset.get<fhicl::ParameterSet>("TModule"), "StntupleEventDump")
   {
     fApplication = 0;
   }

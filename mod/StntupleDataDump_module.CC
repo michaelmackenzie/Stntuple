@@ -86,7 +86,7 @@ public:
 // constructors
 //------------------------------------------------------------------------------
 StntupleDataDump::StntupleDataDump(fhicl::ParameterSet const& Pset): 
-  StntupleModule   (Pset,"StntupleDataDump"),
+  StntupleModule   (Pset.get<fhicl::ParameterSet>("THistModule"),"StntupleDataDump"),
   fMakeStrawHitsModuleLabel(PSet.get<string>       ("makeStrawHitModuleLabel"))
 {
 //-----------------------------------------------------------------------------

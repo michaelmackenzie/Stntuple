@@ -78,45 +78,46 @@ TEvdPanel::TEvdPanel(): TObject() {
 // build the transformation matrix
 //-----------------------------------------------------------------------------
   const mu2e::HepTransform& ds_to_p = Panel->dsToPanel();
-  const HepRotation&  hr            = ds_to_p.rotation();
-  const Hep3Vector&   ht            = ds_to_p.displacement();
+  //const HepRotation&  hr            = ds_to_p.rotation();
+  //const Hep3Vector&   ht            = ds_to_p.displacement();
 
-  double phix = hr.phiX  ()*180./M_PI;
-  double phiy = hr.phiY  ()*180./M_PI;
-  double phiz = hr.phiZ  ()*180./M_PI;
-  double thtx = hr.thetaX()*180./M_PI;
-  double thty = hr.thetaY()*180./M_PI;
-  double thtz = hr.thetaZ()*180./M_PI;
+  // double phix = hr.phiX  ()*180./M_PI;
+  // double phiy = hr.phiY  ()*180./M_PI;
+  // double phiz = hr.phiZ  ()*180./M_PI;
+  // double thtx = hr.thetaX()*180./M_PI;
+  // double thty = hr.thetaY()*180./M_PI;
+  // double thtz = hr.thetaZ()*180./M_PI;
 
-  double disp[3], disp1[3];
-  disp[0]  = ht.x();
-  disp[1]  = ht.y();
-  disp[2]  = ht.z();
+  // double disp[3], disp1[3];
+  // disp[0]  = ht.x();
+  // disp[1]  = ht.y();
+  // disp[2]  = ht.z();
 
-  // if (hr.zz() > 0) {
-  //   // thtx    = thtx+180;
-  //   // thty    = thty+180;
-  //   disp[0] = -disp[0];
-  //   disp[1] = -disp[1];
-  //   disp[2] = -disp[2];
-  // }
+  // // if (hr.zz() > 0) {
+  // //   // thtx    = thtx+180;
+  // //   // thty    = thty+180;
+  // //   disp[0] = -disp[0];
+  // //   disp[1] = -disp[1];
+  // //   disp[2] = -disp[2];
+  // // }
 
-  TGeoRotation* gr = new TGeoRotation(Form("rot_%02i_%i",pid.getPlane(),pid.getPanel()),thtx,phix,thty,phiy,thtz,phiz);
-  //  gr->SetMatrix(r);
+  // TGeoRotation* gr = new TGeoRotation(Form("rot_%02i_%i",pid.getPlane(),pid.getPanel()),thtx,phix,thty,phiy,thtz,phiz);
+  // //  gr->SetMatrix(r);
 
-  gr->MasterToLocal(disp,disp1);
+  // gr->MasterToLocal(disp,disp1);
 
-  fCombiTrans     = new TGeoCombiTrans(Form("trk_%02i_%i",pid.getPlane(),pid.getPanel()),-disp1[0], -disp1[1], -disp1[2],gr);
-  //  fCombiTrans     = new TGeoCombiTrans(Form("trk_%02i_%i",pid.getPlane(),pid.getPanel()),0,0,0,gr);
+  // fCombiTrans     = new TGeoCombiTrans(Form("trk_%02i_%i",pid.getPlane(),pid.getPanel()),-disp1[0], -disp1[1], -disp1[2],gr);
+  // //  fCombiTrans     = new TGeoCombiTrans(Form("trk_%02i_%i",pid.getPlane(),pid.getPanel()),0,0,0,gr);
   
   //  fPos.SetXYZ(disp[0],disp[1], disp[2]);
   fPos.SetXYZ(0,0,0); // fPos[3] is used in TStnVisManager.cc:OpenVRZView
 
   if (TEvdPanel::fgDebugLevel & 0x2) {
-    printf("panel fCombiTrans:\n");
-    fCombiTrans->Print();
+    // printf("panel fCombiTrans:\n");
+    // fCombiTrans->Print();
     printf("mu2e::Panel HepTransform Panel->DS:\n");
     std::cout << Panel->panelToDS() << std::endl;
+
     printf("mu2e::Panel HepTransform DS->Panel:\n");
     std::cout << Panel->dsToPanel() << std::endl;
   }
@@ -198,13 +199,16 @@ Int_t TEvdPanel::DistancetoPrimitiveRZ(Int_t px, Int_t py) {
 }
 
 //_____________________________________________________________________________
+// panel is just a holder of straws, don't need to pick it
+//-----------------------------------------------------------------------------
 Int_t TEvdPanel::DistancetoPrimitiveVST(Int_t px, Int_t py) {
   return 9999;
 }
 
 //_____________________________________________________________________________
 Int_t TEvdPanel::DistancetoPrimitiveVRZ(Int_t px, Int_t py) {
-  return 9999;
+  int min_dist(9999);
+  return min_dist;
 }
 
 }

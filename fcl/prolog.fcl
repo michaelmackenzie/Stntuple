@@ -30,7 +30,7 @@ StntupleTHistModule : {
     maxFileSize         :  4000           ## MBytes
     bufferSize          : 64000           ## bytes
     histFileName        : ""              ##
-    splitLevel          :    99           ##
+    splitLevel          :     0           ## 99           ##
     compressionLevel    :     1           ##
 #------------------------------------------------------------------------------
 # TModule
@@ -66,19 +66,24 @@ StntupleMakerTemplate : { module_type:StntupleMaker
     processName          : undefined
 #------------------------------------------------------------------------------
 # define branches to be filled by default, in alphabetical order
+# set all reconstruction defaults to zero, to force the settings explicit in the top-level FCL
 #------------------------------------------------------------------------------    
+    makeCalDigis         : 0
     makeCalData          : 0
-    makeClusters         : 1
+    makeClusters         : 0
+    
     makeCrvPulses        : 0
-    makeCrvClusters      : 1
-    makeGenp             : 1
+    makeCrvClusters      : 0
+    
+    makeGenp             : 0
     makeHelices          : 0
-    makePid              : 1
-    makeSimp             : 1  # 0: dont write
-    makeStepPointMC      : 1
+    makePid              : 0
+    makeSimp             : 0  # 0: dont write
+    makeStepPointMC      : 0
+    makeStrawDigis       : 0
     makeStrawHits        : 0
     makeStrawWaveforms   : 0
-    makeTracks           : 1
+    makeTracks           : 0
     makeTrackStrawHits   : 0
     makeTrackSeeds       : 0
     makeTimeClusters     : 0
@@ -87,9 +92,11 @@ StntupleMakerTemplate : { module_type:StntupleMaker
 #    KalDiag                      : { @table::KalDiagDirect    }
     DoubletAmbigResolver         : { @table::TrkReco.DoubletAmbigResolver }
 
+    calDigiCollTag               : "CaloDigiMaker"
+    
     caloCrystalHitsMaker         : "CaloHitMaker"
     caloClusterMaker             : "CaloClusterMaker"
-    caloHitCollTag               : "CaloHitMaker"
+    calHitCollTag                : "CaloHitMaker"
 #------------------------------------------------------------------------------
 # default tags for CRV reco collections
 #------------------------------------------------------------------------------
@@ -107,7 +114,6 @@ StntupleMakerTemplate : { module_type:StntupleMaker
 #------------------------------------------------------------------------------
     chCollTag            : "makePH"
     strawDigiCollTag     : "makeSD"
-    sdwfCollTag          : "makeSD"
     shCollTag            : "makeSH"
     strawDigiMCCollTag   : @local::STN_COMPRESS_MCS              # was "makeSD"
 #------------------------------------------------------------------------------
@@ -272,6 +278,7 @@ Stntuple: {
     filters: {
 	EventFilter : { module_type:EventFilter
 	    printFreq    : 1000000
+            diagLevel    : 0
 	    eventList    : []          # [ run1, subrun1, event1, ...]
 	}
     } 
@@ -283,7 +290,7 @@ Stntuple: {
 	    THistModule: { @table::StntupleTHistModule                    # defaults of the base class
                 # module_name       : InitStntuple
                 histFileName      : "default.stn"
-                splitLevel        : 99
+                splitLevel        : 1    # 99
                 module_label      : "InitStntuple"
             }
 	}
@@ -296,10 +303,10 @@ Stntuple: {
 	}
 
 	StntupleEventDump : { module_type:StntupleEventDump 
-	    THistModule: {
-                @table::StntupleTHistModule
-            }                   # defaults of the base class
-	    module_name       : StntupleEventDump
+            TModule: { @table::StntupleTHistModule.TModule
+                interactiveMode  : 1                          ## 1:stop  after each event 2: stop at end-of-job;
+                module_label: "StntupleEventDump"
+            }
 	}
 #------------------------------------------------------------------------------
 # downstream electrons - explicitly - the same as default

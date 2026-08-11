@@ -22,3 +22,7 @@ int TStnInitDataBlock::ResolveLinks(TStnDataBlock* Block, AbsEvent* Event, int M
   return -1;
 }
 
+//-----------------------------------------------------------------------------
+int TStnInitDataBlock::BeginRun(int RunNumber) {
+  return 0;
+}

@@ -56,6 +56,8 @@ namespace stntuple {
   fEllipse.SetR2(rdrift);
   fEllipse.SetFillStyle(3001);
   fEllipse.SetFillColor(kBlue+2);
+
+  if (fTshs->ambig() == 0) fEllipse.SetFillStyle(3003);
 }
 
 //-----------------------------------------------------------------------------

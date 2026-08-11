@@ -22,6 +22,7 @@ public:
 //  data block initialization functions
 //-----------------------------------------------------------------------------
   virtual int InitDataBlock(TStnDataBlock*, AbsEvent*, int Mode); 
-  virtual int ResolveLinks (TStnDataBlock*, AbsEvent*, int Mode); 
+  virtual int ResolveLinks (TStnDataBlock*, AbsEvent*, int Mode);
+  virtual int BeginRun     (int RunNumber);
 };
 #endif

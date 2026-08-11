@@ -7,7 +7,6 @@
 // 
 //  base class for STNTUPLE data block
 //-----------------------------------------------------------------------------
-
 #include "Stntuple/obj/AbsEvent.hh"
 #include "Stntuple/obj/TStnInitDataBlock.hh"
 

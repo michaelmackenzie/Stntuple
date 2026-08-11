@@ -14,7 +14,8 @@ ClassImp(TStnView)
 int TStnView::fgDebugLevel(0);
 
 //-----------------------------------------------------------------------------
-TStnView::TStnView(int Type, int Index): TNamed("",""), fCombiTrans(nullptr) {
+TStnView::TStnView(int Type, int Index): TNamed("","") {
+
   fType        = Type;
   fIndex       = Index;
   fMother      = nullptr;
@@ -27,8 +28,7 @@ TStnView::TStnView(int Type, int Index): TNamed("",""), fCombiTrans(nullptr) {
 
 //-----------------------------------------------------------------------------
 TStnView::TStnView(int Type, int Index, const char* Name, const char* Title):
-  TNamed(Name,Title),
-  fCombiTrans(nullptr) {
+  TNamed(Name,Title)  {
   fType        = Type;
   fIndex       = Index;
   fMother      = nullptr;
@@ -58,13 +58,12 @@ TStnView::~TStnView() {
 
   delete fXAxis;
   delete fYAxis;
-  delete fCombiTrans;
 }
 
-//-----------------------------------------------------------------------------
-void TStnView::CloneCombiTrans(const TGeoCombiTrans* T) {
-  fCombiTrans = new TGeoCombiTrans(*T);
-}
+// //-----------------------------------------------------------------------------
+// void TStnView::CloneCombiTrans(const TGeoCombiTrans* T) {
+//   fCombiTrans = new TGeoCombiTrans(*T);
+// }
 
 //-----------------------------------------------------------------------------
 Int_t TStnView::DistancetoPrimitive(Int_t px, Int_t py) {
@@ -99,7 +98,7 @@ Int_t TStnView::DistancetoPrimitive(Int_t px, Int_t py) {
 // 			     TDetectorElement::GetMinDist());
 //  }
 
-  if (vm->GetMinDist() > 5) vm->SetClosestObject(this,0);
+  if (vm->GetMinDist() > 10) vm->SetClosestObject(this,0);
 //-----------------------------------------------------------------------------
 // prepare output
 //-----------------------------------------------------------------------------

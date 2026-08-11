@@ -113,7 +113,6 @@ physics.producers.protonBunchIntensity.extendedMean          : 3.9e6
 #------------------------------------------------------------------------------
 # move blind time down to zero
 #------------------------------------------------------------------------------
-services.ConditionsService.StrawElectronics.FlashEnd         : @local::BlindTime
 
 physics.producers.CaloShowerStepROFromShowerStep.blindTime   : @erase
 physics.producers.CaloShowerStepROFromShowerStep.blindTime   : @local::BlindTime

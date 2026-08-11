@@ -18,12 +18,12 @@ void TAnaDump::printComboHit(const mu2e::ComboHit* Hit, const mu2e::StrawGasStep
   opt.ToLower();
 
   if ((opt == "") || (opt.Index("banner") >= 0)) {
-    printf("#-----------------------------------------------------------------------------------------------");
-    printf("--------------------------------------------------------------------------------------------\n");
-    printf("#   i nsh   sid   flags  stn pln pnl str     x       y       z      phi   time    tcorr     e(keV)");
-    printf("  drtime  prtime  tres    wdist     wres simid      p        pz         pdg     pdgm   genid\n");
-    printf("#-----------------------------------------------------------------------------------------------");
-    printf("--------------------------------------------------------------------------------------------\n");
+    printf("#---------------------------------------------------------------------------------------------------");
+    printf("---------------------------------------------------------------------------------------------\n");
+    printf("#   i nsh   sid   flags  stn pln pnl str      x        y       z      phi   time    tcorr     e(keV)");
+    printf("  drtime  prtime  tres     wdist     wres simid      p        pz         pdg     pdgm   genid\n");
+    printf("#---------------------------------------------------------------------------------------------------");
+    printf("---------------------------------------------------------------------------------------------\n");
   }
 
   if (opt == "banner") return;
@@ -65,7 +65,7 @@ void TAnaDump::printComboHit(const mu2e::ComboHit* Hit, const mu2e::StrawGasStep
 
     printf(" %08x",Flags);
 
-    printf(" %3i %3i %3i %3i %7.2f %7.2f %8.2f %5.2f %8.2f %8.2f %8.4f %7.2f %7.2f %5.2f %8.3f %8.3f %5i %8.3f %8.3f %10i %10i %5i\n",
+    printf(" %3i %3i %3i %3i %8.2f %8.2f %8.2f %5.2f %8.2f %8.2f %8.4f %7.2f %7.2f %5.2f %9.3f %8.3f %5i %8.3f %8.3f %10i %10i %5i\n",
 	   Hit->strawId().station(),
 	   Hit->strawId().plane(),
 	   Hit->strawId().panel(),
@@ -99,7 +99,8 @@ void TAnaDump::printComboHit(const mu2e::ComboHit* Hit, const mu2e::StrawGasStep
 //-----------------------------------------------------------------------------
 void TAnaDump::printComboHitCollection(const char* ComboHitCollTag   , 
 				       const char* StrawDigiMCCollTag,
-				       double TMin, double TMax) {
+				       double TMin, double TMax,
+                                       double EMin, double EMax) {
 //-----------------------------------------------------------------------------
 // get straw hits
 //-----------------------------------------------------------------------------
@@ -150,7 +151,7 @@ void TAnaDump::printComboHitCollection(const char* ComboHitCollTag   ,
       printComboHit(hit, step, "banner");
       banner_printed = 1;
     }
-    if ((hit->time() >= TMin) && (hit->time() <= TMax)) {
+    if ((hit->time() >= TMin) and (hit->time() <= TMax) and (hit->energyDep() >= EMin) and (hit->energyDep() <= EMax)) {
       printComboHit(hit, step, "data", i, flags);
     }
   }

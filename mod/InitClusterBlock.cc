@@ -211,7 +211,7 @@ int  StntupleInitMu2eClusterBlock(TStnDataBlock* Block, AbsEvent* Evt, int Mode)
     tmean      = 0.; // mean hit time in cluster no energy weighting
 
     // main crystal neighbors and next neighbors
-    std::vector<int> neighbors, nneighbors;
+    std::vector<unsigned> neighbors, nneighbors;
 
     // compute mean hit time to later compute trms
     for (int ih=0; ih<nh; ih++) {

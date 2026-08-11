@@ -27,9 +27,6 @@
 
 #include "art/Framework/Principal/Handle.h"
 
-// #include "BTrk/TrkBase/HelixParams.hh"
-// #include "BTrk/TrkBase/HelixTraj.hh"
-
 #include "Offline/GeometryService/inc/GeometryService.hh"
 #include "Offline/GeometryService/inc/GeomHandle.hh"
 

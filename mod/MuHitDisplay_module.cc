@@ -455,7 +455,7 @@ void MuHitDisplay::InitVisManager() {
         stntuple::TEvdPanel* evd_panel = evd_tracker->Station(is)->Plane(ipln)->Panel(ipnl);
         const mu2e::Panel*   panel     = evd_panel->GetMu2ePanel();
         v->SetMother((void*) panel);
-        v->CloneCombiTrans(evd_panel->GetCombiTrans());
+        //        v->CloneCombiTrans(evd_panel->GetCombiTrans());
 //-----------------------------------------------------------------------------
 // create VisNode for this panel and, together with the TrkVisNode, add it to the view
 //-----------------------------------------------------------------------------

@@ -15,18 +15,18 @@ ClassImp(TCrvPulseBlock)
     R__b >> fNPulses;
     fListOfPulses->Streamer(R__b);
 
-    R__b >> fNCoincidences;
-    fListOfCoincidences->Streamer(R__b);
-    fCoincidencePulseLinks->Streamer(R__b);
+    // R__b >> fNCoincidences;
+    // fListOfCoincidences->Streamer(R__b);
+    // fCoincidencePulseLinks->Streamer(R__b);
   }
   else {
     R__b.WriteVersion(TCrvPulseBlock::IsA());
     R__b << fNPulses;
     fListOfPulses->Streamer(R__b);
 
-    R__b << fNCoincidences;
-    fListOfCoincidences->Streamer(R__b);
-    fCoincidencePulseLinks->Streamer(R__b);
+    // R__b << fNCoincidences;
+    // fListOfCoincidences->Streamer(R__b);
+    // fCoincidencePulseLinks->Streamer(R__b);
   }
 }
 
@@ -35,10 +35,10 @@ TCrvPulseBlock::TCrvPulseBlock() {
   fListOfPulses = new TClonesArray("TCrvRecoPulse",1000);
   fListOfPulses->BypassStreamer(kFALSE);
 
-  fListOfCoincidences = new TClonesArray("TCrvCoincidence",100);
-  fListOfCoincidences->BypassStreamer(kFALSE);
+  // fListOfCoincidences = new TClonesArray("TCrvCoincidence",100);
+  // fListOfCoincidences->BypassStreamer(kFALSE);
 
-  fCoincidencePulseLinks = new TStnLinkBlock();
+  //   fCoincidencePulseLinks = new TStnLinkBlock();
 
   Clear();
 }
@@ -48,10 +48,10 @@ TCrvPulseBlock::~TCrvPulseBlock() {
   fListOfPulses->Delete();
   delete fListOfPulses;
 
-  fListOfCoincidences->Delete();
-  delete fListOfCoincidences;
+  // fListOfCoincidences->Delete();
+  // delete fListOfCoincidences;
 
-  delete fCoincidencePulseLinks;
+  // delete fCoincidencePulseLinks;
 }
 
 //______________________________________________________________________________
@@ -59,9 +59,9 @@ void TCrvPulseBlock::Clear(Option_t* opt) {
   fNPulses = 0;
   fListOfPulses->Clear();
 
-  fNCoincidences = 0;
-  fListOfCoincidences->Clear();
-  fCoincidencePulseLinks->Clear();
+  //  fNCoincidences = 0;
+  // fListOfCoincidences->Clear();
+  // fCoincidencePulseLinks->Clear();
 
   f_EventNumber       = -1;
   f_RunNumber         = -1;
@@ -85,9 +85,9 @@ void TCrvPulseBlock::Print(Option_t* opt) const {
     p->Print("data");
   }
 
-  printf(" *** reconstructed CRV coincidences *** \nNumber: %d\n",fNCoincidences);
-  for(int i=0; i<fNCoincidences; i++) {
-    fListOfCoincidences->At(i)->Print();
-  }
+  // printf(" *** reconstructed CRV coincidences *** \nNumber: %d\n",fNCoincidences);
+  // for(int i=0; i<fNCoincidences; i++) {
+  //   fListOfCoincidences->At(i)->Print();
+  // }
 }
 

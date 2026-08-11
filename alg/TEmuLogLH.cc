@@ -566,7 +566,7 @@ int TEmuLogLH::Init_v4_2_4() {
   char f_ele_ep_vs_path[256], f_ele_dt[256], f_ele_xs[256];
   char f_muo_ep_vs_path[256], f_muo_dt[256], f_muo_xs[256];
 
-  sprintf(dir,"%s/Offline/ConditionsService/data",getenv("MUSE_WORK_DIR"));
+  sprintf(dir,"%s/Offline/ParticleID/data",getenv("MUSE_WORK_DIR"));
 
   sprintf(f_ele_ep_vs_path,"%s/pid_ele_ep_vs_path_v4_2_4.tab",dir);
   sprintf(f_ele_dt        ,"%s/pid_ele_dt_v4_2_4.tab",dir);
@@ -595,7 +595,7 @@ int TEmuLogLH::Init_v5_7_0() {
   char f_ele_ep_vs_path[256], f_ele_dt[256], f_ele_xs[256];
   char f_muo_ep_vs_path[256], f_muo_dt[256], f_muo_xs[256];
 
-  sprintf(dir,"%s/Offline/ConditionsService/data/v5_7_0",getenv("MUSE_WORK_DIR"));
+  sprintf(dir,"%s/Offline/ParticleID/data/v5_7_0",getenv("MUSE_WORK_DIR"));
 
   sprintf(f_ele_ep_vs_path,"%s/pid_ele_ep_vs_path.tbl",dir);
   sprintf(f_ele_dt        ,"%s/pid_ele_dt.tbl",dir);
@@ -625,7 +625,7 @@ int TEmuLogLH::Init_v5_7_2() {
   char f_ele_ep_vs_path[256], f_ele_dt[256], f_ele_xs[256];
   char f_muo_ep_vs_path[256], f_muo_dt[256], f_muo_xs[256];
 
-  sprintf(dir,"%s/Offline/ConditionsService/data/v5_7_2",getenv("MUSE_WORK_DIR"));
+  sprintf(dir,"%s/Offline/ParticleID/data/v5_7_2",getenv("MUSE_WORK_DIR"));
 
   sprintf(f_ele_ep_vs_path,"%s/pid_ele_ep_vs_path.tbl",dir);
   sprintf(f_ele_dt        ,"%s/pid_ele_dt.tbl",dir);
@@ -655,7 +655,7 @@ int TEmuLogLH::Init_v5_7_9() {
   char f_ele_ep_vs_path[256], f_ele_dt[256], f_ele_xs[256];
   char f_muo_ep_vs_path[256], f_muo_dt[256], f_muo_xs[256];
 
-  sprintf(dir,"%s/Offline/ConditionsService/data/v5_7_9",getenv("MUSE_WORK_DIR"));
+  sprintf(dir,"%s/Offline/ParticleID/data/v5_7_9",getenv("MUSE_WORK_DIR"));
 
   sprintf(f_ele_ep_vs_path,"%s/pid_ele_ep_vs_path.tbl",dir);
   sprintf(f_ele_dt        ,"%s/pid_ele_dt.tbl",dir);

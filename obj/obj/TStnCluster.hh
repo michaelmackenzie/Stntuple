@@ -151,10 +151,10 @@ public:
   float   OutRingE    () const { return fOutRingE;}
 
   // evaluated values
-  float   E1          () const { return SeedFr() * Energy(); } // energy of main hit
+  float   E1          () const { return SeedFr() * Energy(); }         // energy of main hit
   float   E2          () const { return SeedFr2() * Energy() - E1(); } // energy of the second biggest hit
-  float   E12         () const { return SeedFr2() * Energy(); } // energy of main two hits
-  float   RingE       () const { return E9() - E1(); } // energy around the main hit
+  float   E12         () const { return SeedFr2() * Energy(); }        // energy of main two hits
+  float   RingE       () const { return E9() - E1(); }                 // energy around the main hit
   float   R           () const { return std::sqrt(fX*fX + fY*fY); }
 
   // sparse crystal info

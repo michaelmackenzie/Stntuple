@@ -62,7 +62,6 @@
 #include "Offline/CommonMC/inc/TrkMCTools.hh"
 
 // BTRK (BaBar) includes
-#include "Stntuple/gui/HepPoint.hh"
 // #include "BTrk/BbrGeom/HepPoint.h"
 // #include "BTrk/BbrGeom/TrkLineTraj.hh"
 // #include "BTrk/TrkBase/TrkPoca.hh"
@@ -236,8 +235,8 @@ void TAnaDump::printCaloCluster(const mu2e::CaloCluster* Cl,
 //-----------------------------------------------------------------------------
 // transform cluster coordinates to the tracker coordiante system
 //-----------------------------------------------------------------------------
-    gpos = cal->geomUtil().diskToMu2e(Cl->diskID(),Cl->cog3Vector());
-    tpos = cal->geomUtil().mu2eToTracker(gpos);
+    gpos = cal->diskToMu2e(Cl->diskID(),Cl->cog3Vector());
+    tpos = cal->mu2eToTracker(gpos);
 
     printf(" %3i %3i %-16p %2i %6i %3i %8.3f %8.3f %10.3f %10.3f %10.3f %10.3f %10.3f %10.3f\n",
 	   row, col,
@@ -1348,17 +1347,18 @@ void TAnaDump::printCalorimeter() {
 
   int nd = cal->nDisks();
   printf(" ndisks = %i\n", nd);
-  printf(" crystal size  : %10.3f\n", cal->caloInfo().getDouble("crystalXYLength"));
-  printf(" crystal length: %10.3f\n", cal->caloInfo().getDouble("crystalZLength"));
+  printf(" crystal size  : %10.3f\n", cal->G4Info().get<double>("crystalXYLength"));
+  printf(" crystal length: %10.3f\n", cal->G4Info().get<double>("crystalZLength"));
 
   for (int i=0; i<nd; i++) {
     disk = &cal->disk(i);
     printf(" ---- disk # %i\n",i);
-    printf(" Rin  : %10.3f  Rout : %10.3f\n", disk->geomInfo().innerEnvelopeR(), disk->geomInfo().outerEnvelopeR());
+    printf(" Rin  : %10.3f  Rout : %10.3f\n", disk->diskInfo().innerEnvelopeR(),
+           disk->diskInfo().outerEnvelopeR());
     printf(" X : %12.3f Y : %12.3f Z : %12.3f\n",
-	   disk->geomInfo().origin().x(),
-	   disk->geomInfo().origin().y(),
-	   disk->geomInfo().origin().z());
+	   disk->diskInfo().origin().x(),
+	   disk->diskInfo().origin().y(),
+	   disk->diskInfo().origin().z());
     // printf(" Xsize : %10.3f Ysize : %10.3f Zsize : %10.3f\n", 
     // 	   disk->size().x(),
     // 	   disk->size().y(),

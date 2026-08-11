@@ -56,7 +56,7 @@ TCalVisNode::TCalVisNode(const char* Name, const mu2e::Disk* Disk, int SectionID
   fMinClusterEnergy = 5.;
   fMinCrystalEnergy = 0.;
 
-  double crystal_size = dc->caloInfo().getDouble("crystalXYLength")/2.; // crystalHalfTrans();
+  double crystal_size = dc->G4Info().get<double>("crystalXYLength")/2.; // crystalHalfTrans();
   int    nedges       = 4;//dc->caloInfo().crystalNedges();
 
   fSectionID         = SectionID;

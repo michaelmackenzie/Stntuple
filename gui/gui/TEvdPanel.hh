@@ -7,7 +7,7 @@
 #include "Gtypes.h"
 #include "TObjArray.h"
 #include "TVector3.h"
-#include "TGeoMatrix.h"
+// #include "TGeoMatrix.h"
 
 namespace mu2e {
   class Panel;
@@ -33,7 +33,7 @@ protected:
   TEvdPlane*         fPlane; 		// backward pointer
   const mu2e::Panel* fPanel;
 
-  TGeoCombiTrans*    fCombiTrans;       // rotate, then translate
+  //  TGeoCombiTrans*    fCombiTrans;       // rotate, then translate
 
   static int         fgDebugLevel;
 public:
@@ -47,7 +47,7 @@ public:
 //-----------------------------------------------------------------------------
 // accessors
 //-----------------------------------------------------------------------------
-  TGeoCombiTrans* GetCombiTrans() { return fCombiTrans; }
+//  TGeoCombiTrans* GetCombiTrans() { return fCombiTrans; }
   int             NLayers      () { return fNLayers;    }
   int             MnID         () { return fMnID;       }
   int             NStraws      () { return fListOfStraws->GetEntriesFast(); }

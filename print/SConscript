@@ -28,7 +28,6 @@ def local_build():
                         'mu2e_CalPatRec',
                         'mu2e_CaloCluster',
                         'mu2e_TrkReco',
-                        
                         'mu2e_CalorimeterGeom',
                         'mu2e_GeometryService',
                         'mu2e_SeedService_SeedService_service',
@@ -44,7 +43,7 @@ def local_build():
                         'mu2e_CaloMC',
                         'mu2e_CommonMC',
                                                 
-                        babarlibs,
+                        # babarlibs,
                         
                         'art_Framework_Core',
                         'art_Framework_Principal',

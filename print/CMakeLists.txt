@@ -41,14 +41,13 @@ target_link_libraries(${lib}
   Stntuple_base
   Offline::CalPatRec
   Offline::CaloCluster
-  Offline::TrkDiag
+  #  Offline::TrkDiag
   Offline::TrkReco
   
   Offline::CalorimeterGeom
   Offline::GeometryService
   Offline::SeedService_SeedService_service
   Offline::GlobalConstantsService
-  Offline::ConditionsService
   Offline::GlobalConstantsService_GlobalConstantsService_service
   Offline::Mu2eUtilities
   Offline::GeneralUtilities
@@ -56,7 +55,16 @@ target_link_libraries(${lib}
   Offline::RecoDataProducts
   Offline::DataProducts
   Offline::CaloMC
-  
+
+#  BTrk_BbrGeom
+#  BTrk_TrkBase
+#  BTrk_difAlgebra
+#  BTrk_BField
+#  BTrk_DetectorModel
+#  BTrkLegacy
+#  BTrk_MatEnv
+#  BTrk_BaBar
+
   art::Persistency_Provenance
   
   ROOT::Physics ROOT::GenVector ROOT::Graf ROOT::Graf3d ROOT::Geom ROOT::Matrix ROOT::Core

@@ -74,7 +74,7 @@ def local_build():
                  'mu2e_DbService',
                  'mu2e_DbTables',
                  'mu2e_CaloMC',
-                 babarlibs,
+                 # babarlibs,
                  'CLHEP',
                  'art_Framework_Core',
                  'art_Framework_Principal',

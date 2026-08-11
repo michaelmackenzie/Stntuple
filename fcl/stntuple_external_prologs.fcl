@@ -57,6 +57,7 @@ END_PROLOG
 #include "Offline/CalPatRec/fcl/prolog.fcl"
 #include "Offline/CosmicReco/fcl/prolog.fcl"
 #include "Offline/CRVReco/fcl/prolog.fcl"
+#include "Offline/CRVResponse/fcl/prolog.fcl"
 #include "Offline/DAQ/fcl/prolog.fcl"
 
 #------------------------------------------------------------------------------

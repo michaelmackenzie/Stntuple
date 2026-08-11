@@ -69,7 +69,9 @@ int  StntupleInitTimeClusterBlock::InitDataBlock(TStnDataBlock* Block, AbsEvent*
 
   // art::Handle<mu2e::ComboHitCollection>    sschcH;
   //  const mu2e::ComboHitCollection*          sschc(nullptr);
-
+//-----------------------------------------------------------------------------
+// combohits are only needed for MC-specific purpose
+//-----------------------------------------------------------------------------
   if (! fChCollTag.empty()) {
     bool ok = Evt->getByLabel(fChCollTag,chcH);
     if (ok) {
@@ -77,8 +79,8 @@ int  StntupleInitTimeClusterBlock::InitDataBlock(TStnDataBlock* Block, AbsEvent*
     }
     else {
       mf::LogWarning(oname) << " ERROR: no ComboHitCollection tag=" 
-			    << fShCollTag.encode().data() <<  " found. BAIL OUT";
-      return -1;
+			    << fChCollTag.encode().data() <<  " found. BAIL OUT";
+      // return -1;
     }
   }
 //-----------------------------------------------------------------------------
@@ -116,8 +118,8 @@ int  StntupleInitTimeClusterBlock::InitDataBlock(TStnDataBlock* Block, AbsEvent*
       
       tc->fClusterTime    = cluster->time();
       tc->fClusterEnergy  = cluster->energyDep();
-      CLHEP::Hep3Vector         gpos = _calorimeter->geomUtil().diskToMu2e(cluster->diskID(),cluster->cog3Vector());
-      CLHEP::Hep3Vector         tpos = _calorimeter->geomUtil().mu2eToTracker(gpos);
+      CLHEP::Hep3Vector         gpos = _calorimeter->diskToMu2e(cluster->diskID(),cluster->cog3Vector());
+      CLHEP::Hep3Vector         tpos = _calorimeter->mu2eToTracker(gpos);
       tc->fClusterX       = tpos.x();
       tc->fClusterY       = tpos.y();
       tc->fClusterZ       = tpos.z();
@@ -142,67 +144,69 @@ int  StntupleInitTimeClusterBlock::InitDataBlock(TStnDataBlock* Block, AbsEvent*
     const mu2e::SimParticle*  simm[max_np];
     simm[0] = nullptr;
 
-    for (int ih=0; ih<tc->fNComboHits; ih++) {
-      StrawHitIndex hit_index   = tmpTCl->hits().at(ih);
-      const mu2e::ComboHit* hit = &chc->at(hit_index);
+    if (mcdigis and chc) {
+      for (int ih=0; ih<tc->fNComboHits; ih++) {
+        StrawHitIndex hit_index   = tmpTCl->hits().at(ih);
+        const mu2e::ComboHit* hit = &chc->at(hit_index);
 //-----------------------------------------------------------------------------
 // loop over straw hits of one combo hit
 //-----------------------------------------------------------------------------
-      int nsh = hit->nStrawHits();
-      for (int ish=0; ish<nsh; ish++) {
-	int ind = hit->index(ish);
-	const mu2e::StrawDigiMC* mcdigi = &mcdigis->at(ind);
-      
-        step = mcdigi->earlyStrawGasStep().get();
+        int nsh = hit->nStrawHits();
+        for (int ish=0; ish<nsh; ish++) {
+          int ind = hit->index(ish);
+          const mu2e::StrawDigiMC* mcdigi = &mcdigis->at(ind);
+          
+          step = mcdigi->earlyStrawGasStep().get();
 
-	int id(-1);
-	const mu2e::SimParticle* sim(nullptr);
-	if (step) {
-	  sim = step->simParticle().get(); 
-	  id  = sim->id().asInt();
-	}
+          int id(-1);
+          const mu2e::SimParticle* sim(nullptr);
+          if (step) {
+            sim = step->simParticle().get(); 
+            id  = sim->id().asInt();
+          }
 //-----------------------------------------------------------------------------
 // accumulate list of sim particle ID's for this time cluster
 //-----------------------------------------------------------------------------
-	int found = 0;
-	for (int ip=0; ip<np; ip++) {
-	  if (id == sim_id[ip]) {
-	    found       = 1;
-	    sim_nh[ip] += 1;
-	    break;
-	  }
-	}
+          int found = 0;
+          for (int ip=0; ip<np; ip++) {
+            if (id == sim_id[ip]) {
+              found       = 1;
+              sim_nh[ip] += 1;
+              break;
+            }
+          }
 	
-	if (sim && (found == 0)) {
-	  sim_id  [np] = id;
-	  simm    [np] = sim;
-	  pdg_code[np] = sim->pdgId();
-	  sim_nh  [np] = 1;
-	  np          += 1;
-	}
+          if (sim && (found == 0)) {
+            sim_id  [np] = id;
+            simm    [np] = sim;
+            pdg_code[np] = sim->pdgId();
+            sim_nh  [np] = 1;
+            np          += 1;
+          }
+        }
       }
-    }
 //-----------------------------------------------------------------------------
 // identify time cluster with the particle which produced most hits
 //-----------------------------------------------------------------------------
-    int ipart  = -1;
-    int max_nh = sim_nh[0];
-
-    const mu2e::SimParticle* best_sim(nullptr);
-
-    for (int ip=1; ip<np; ip++) {
-      if (sim_nh[ip] > max_nh) {
-	max_nh = sim_nh[ip];
-	ipart  = ip;
-      }
-    }
+      int ipart  = -1;
+      int max_nh = sim_nh[0];
     
-    if (ipart >= 0) {
-      best_sim        = simm    [ipart];
-      tc->fSimID      = sim_id  [ipart];
-      tc->fPdgID      = pdg_code[ipart];
-      tc->fNHitsSimID = max_nh;
-      tc->fMcMom      = best_sim->startMomentum().mag() ;
+      const mu2e::SimParticle* best_sim(nullptr);
+
+      for (int ip=1; ip<np; ip++) {
+        if (sim_nh[ip] > max_nh) {
+          max_nh = sim_nh[ip];
+          ipart  = ip;
+        }
+      }
+    
+      if (ipart >= 0) {
+        best_sim        = simm    [ipart];
+        tc->fSimID      = sim_id  [ipart];
+        tc->fPdgID      = pdg_code[ipart];
+        tc->fNHitsSimID = max_nh;
+        tc->fMcMom      = best_sim->startMomentum().mag() ;
+      }
     }
   }
 
