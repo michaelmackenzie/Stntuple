@@ -10,6 +10,7 @@
 #include "Stntuple/obj/TStnDataBlock.hh"
 #include "Stntuple/obj/TStnCluster.hh"
 #include "TBuffer.h"
+#include <cmath>
 
 class TStnClusterBlock: public TStnDataBlock {
   friend Int_t StntupleInitMu2eClusterBlockLinks(TStnDataBlock*, AbsEvent* , int);

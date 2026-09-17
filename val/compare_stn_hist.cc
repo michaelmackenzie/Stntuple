@@ -13,6 +13,7 @@
 #include "TString.h"
 #include "TBrowser.h"
 #include "TCanvas.h"
+#include "TMath.h"
 #include "Stntuple/val/THistComp.hh"
 #include "Stntuple/val/TGoodFolder.hh"
 #include "Stntuple/val/TBadFolder.hh"

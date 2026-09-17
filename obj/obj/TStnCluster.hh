@@ -15,6 +15,7 @@
 
 // C++ includes.
 #include <iostream>
+#include <cmath>
 
 #include "TString.h"
 #include "TFolder.h"
