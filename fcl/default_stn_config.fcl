@@ -159,32 +159,32 @@ physics.producers.compressRecoMCs.surfaceStepTags : []
 
 # Turn off MC-matching in the trigger which doesn't work with cloning
 physics.producers.TrigAprKSFMC : { module_type: NullProducer }
-physics.producers.AprHelixTriggerInfoMerger.doDeepCopy             : 1
-physics.producers.AprTrkDe80m70pD0200TriggerInfoMerger.doDeepCopy  : 1
-physics.producers.AprTrkDe80m70pTriggerInfoMerger.doDeepCopy       : 1
-physics.producers.AprTrkDe50MultiHelixTriggerInfoMerger.doDeepCopy : 1
-physics.producers.AprTrkDe50D0200TriggerInfoMerger.doDeepCopy      : 1
-physics.producers.AprHelixTriggerInfoMerger.doDeepCopy             : 1
-physics.producers.AprHlx50Hlx30TriggerInfoMerger.doDeepCopy        : 1
-physics.producers.AprHlx50Hlx30TriggerInfoMerger.doDeepCopy        : 1
+physics.producers.AprHelixTriggerInfoMerger.doDeepCopy             : true
+physics.producers.AprTrkDe80m70pD0200TriggerInfoMerger.doDeepCopy  : true
+physics.producers.AprTrkDe80m70pTriggerInfoMerger.doDeepCopy       : true
+physics.producers.AprTrkDe50MultiHelixTriggerInfoMerger.doDeepCopy : true
+physics.producers.AprTrkDe50D0200TriggerInfoMerger.doDeepCopy      : true
+physics.producers.AprHelixTriggerInfoMerger.doDeepCopy             : true
+physics.producers.AprHlx50Hlx30TriggerInfoMerger.doDeepCopy        : true
+physics.producers.AprHlx50Hlx30TriggerInfoMerger.doDeepCopy        : true
 
 # Turn off MC-matching in the trigger which doesn't work with cloning
 physics.producers.TrigCprDeKSFMC : { module_type: NullProducer }
-physics.producers.CprTrkDe80m70pD0200TriggerInfoMerger.doDeepCopy  : 1
-physics.producers.CprTrkDe80m70pTriggerInfoMerger.doDeepCopy       : 1
-physics.producers.CprTrkDe50D0200TriggerInfoMerger.doDeepCopy      : 1
-physics.producers.CprHlxDe50TriggerInfoMerger.doDeepCopy           : 1
-physics.producers.CprHelixUeTriggerInfoMerger.doDeepCopy           : 1
+physics.producers.CprTrkDe80m70pD0200TriggerInfoMerger.doDeepCopy  : true
+physics.producers.CprTrkDe80m70pTriggerInfoMerger.doDeepCopy       : true
+physics.producers.CprTrkDe50D0200TriggerInfoMerger.doDeepCopy      : true
+physics.producers.CprHlxDe50TriggerInfoMerger.doDeepCopy           : true
+physics.producers.CprHelixUeTriggerInfoMerger.doDeepCopy           : true
 
 # Turn off MC-matching in the trigger which doesn't work with cloning
 physics.producers.TrigTprDeKSFMC : { module_type: NullProducer }
-physics.producers.TprTrkDe80m70pD0200TriggerInfoMerger.doDeepCopy  : 1
-physics.producers.TprTrkDe80m70pTriggerInfoMerger.doDeepCopy       : 1
-physics.producers.TprTrkDe50D0200TriggerInfoMerger.doDeepCopy      : 1
-physics.producers.TprHlxDe70m50pTriggerInfoMerger.doDeepCopy       : 1
-physics.producers.TprHlxUe50m30pTriggerInfoMerger.doDeepCopy       : 1
-physics.producers.TprHlxDe30pIPATriggerInfoMerger.doDeepCopy       : 1
-physics.producers.TprHlxDe30pIPAPhiTriggerInfoMerger.doDeepCopy    : 1
+physics.producers.TprTrkDe80m70pD0200TriggerInfoMerger.doDeepCopy  : true
+physics.producers.TprTrkDe80m70pTriggerInfoMerger.doDeepCopy       : true
+physics.producers.TprTrkDe50D0200TriggerInfoMerger.doDeepCopy      : true
+physics.producers.TprHlxDe70m50pTriggerInfoMerger.doDeepCopy       : true
+physics.producers.TprHlxUe50m30pTriggerInfoMerger.doDeepCopy       : true
+physics.producers.TprHlxDe30pIPATriggerInfoMerger.doDeepCopy       : true
+physics.producers.TprHlxDe30pIPAPhiTriggerInfoMerger.doDeepCopy    : true
 
 physics.producers.TrigMprDeKSFMC : { module_type : NullProducer }
 physics.producers.TrigTprDeKSFMC : { module_type : NullProducer }
